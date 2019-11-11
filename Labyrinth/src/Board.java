@@ -2,6 +2,12 @@
 public class Board {
 	
 	private Tile[][] board = new Tile[9][9];
+	//4 L corner tiles
+	//12 T unmovable treasure tiles
+	//6 T movable treasure tiles
+	//6 L movable treasure tiles
+	//10 L tiles
+	//12 I tiles
 
 	public Board(Tile[][] board) {
 		super();
