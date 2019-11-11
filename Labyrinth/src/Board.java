@@ -49,4 +49,20 @@ public class Board {
 		
 	}
 	
+	public void pushColDown() {
+		
+	}
+	
+	public void pushColUp() {
+		
+	}
+	
+	public void pushRowRight() {
+		
+	}
+	
+	public void pushRowDown() {
+		
+	}
+	
 }

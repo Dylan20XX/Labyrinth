@@ -5,6 +5,7 @@ public class LabyrinthTest {
 	//Saving/file input
 	
 	public static void main(String[] args) {
+		//Assets.init();
 		new LabyrinthGUI();
 	}
 	
