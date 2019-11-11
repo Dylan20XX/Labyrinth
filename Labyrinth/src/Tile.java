@@ -1,26 +1,17 @@
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 
-public class Tile extends JLabel {
+public class Tile extends JButton {
 	
-	//4 L corner tiles
-	//12 T unmovable treasure tiles
-	//6 T movable treasure tiles
-	//6 L movable treasure tiles
-	//10 L tiles
-	//12 I tiles
-	public static ImageIcon blueTile = imageSetup("Images/blueTile.png");
-	public static ImageIcon redTile = imageSetup("Images/redTile.png");
-	public static ImageIcon yellowTile = imageSetup("Images/yellowTile.png");
-	public static ImageIcon greenTile = imageSetup("Images/greenTile.png");
-	
-	public static Tile defaultTile = new Tile("I", blueTile);
+	public static Tile defaultTile = new Tile("I", Assets.blueTile);
+	public static final int TILE_SIZE = 60;
 	
 	private String type; //I, T, or L tile
-	boolean hasTreausre;
-	String treasure;
+	private boolean hasTreausre;
+	private String treasure;
+	private int rotation;
 	
 	//Constructor for tile with treasure
 	public Tile(String type, String treasure, ImageIcon image) {
@@ -28,6 +19,7 @@ public class Tile extends JLabel {
 		this.type = type;
 		this.hasTreausre = true;
 		this.treasure = treasure;
+		this.rotation = 0;
 		setIcon(image);
 	}
 	
@@ -37,6 +29,7 @@ public class Tile extends JLabel {
 		this.type = type;
 		this.hasTreausre = false;
 		this.treasure = "";
+		this.rotation = 0;
 		setIcon(image);
 	}
 
@@ -64,6 +57,14 @@ public class Tile extends JLabel {
 		this.treasure = treasure;
 	}
 	
+	public int getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+	}
+
 	@Override
 	public String toString() {
 		return "Tile [type=" + type + ", hasTreausre=" + hasTreausre + ", treasure=" + treasure + "]";

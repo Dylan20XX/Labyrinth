@@ -1,42 +1,71 @@
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-public class LabyrinthGUI extends JFrame {
+public class LabyrinthGUI extends JFrame implements ActionListener{
 	
-	private JPanel boardPanel = new JPanel();
-	private Tile[][] board = new Tile[9][9];
+	private JLayeredPane boardPanel = new JLayeredPane();
+	private Board board = new Board();
 	//60x60 tiles 540x540 board
 	
-	private final int TILE_SIZE = 60;
-	/*
-	setIcon(new ImageIcon(new javax.swing.ImageIcon
-			(getClass().getResource(String.format("Images/Phone%d.jpg", scoreIndex[index]))).getImage().getScaledInstance
-			(250,170, Image.SCALE_SMOOTH)));
-	new ImageIcon(new javax.swing.ImageIcon
-			(getClass().getResource(String.format("Images/Phone%d.jpg", scoreIndex[index]))).getImage().getScaledInstance
-			(250,170, Image.SCALE_SMOOTH))
-	*/
+	private JPanel cardPanel = new JPanel();
+	private JLayeredPane layers = new JLayeredPane();
 	
+	private JLabel player1Label = new JLabel(Assets.p1);
+	private JLabel player2Label = new JLabel(Assets.p2);
+	private JLabel player3Label = new JLabel(Assets.p3);
+	private JLabel player4Label = new JLabel(Assets.p4);
 	
 	public LabyrinthGUI() {
 		
+		buttonSetup();
+		cardPanelSetup();
 		boardPanelSetup();
+		placePlayer();
 		frameSetup();
 		
 	}
 	
+	//This method places the player on the board
+	private void placePlayer() {
+		player1Label.setBounds(15, 105, 30, 30);
+		boardPanel.add(player1Label, new Integer(2));
+	}
+
+	//This method sets up the buttons used to rotate and place
+	private void buttonSetup() {
+		
+		
+	}
+
+	//This method sets up the panel that contains the cards
+	private void cardPanelSetup() {
+
+		//Set the bounds of the card panel
+		cardPanel.setLayout(null);
+		cardPanel.setBounds(650, 90, Tile.TILE_SIZE * 9, 400);
+		cardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+	}
+	
 	//This method sets up the panel that contains the board
 	private void boardPanelSetup() {
-
+		
 		//Set the bounds of the board panel
 		boardPanel.setLayout(null);
-		boardPanel.setBounds(90, 90, TILE_SIZE * 9, TILE_SIZE * 9);
+		boardPanel.setBounds(90, 90, Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 9);
 		boardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
+		//Setup the layered pane
+		
+		//Load the board
 		loadBoard();
 
 	}
@@ -44,19 +73,22 @@ public class LabyrinthGUI extends JFrame {
 	//This method loads the game board
 	private void loadBoard(){
 		
+		//Fill the board
+		board.fillBoard();
+		
 		//Placeholder image - yellowTile
 		//Add arrows to the top and bottom of the board
 		for(int col = 1; col < 8; col++) {
 			
 			if(col == 2 || col == 4 || col == 6) {
 				
-				JLabel arrow1 = new JLabel(Tile.yellowTile);
-				arrow1.setBounds(col * TILE_SIZE, 0 * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-				boardPanel.add(arrow1);
+				JButton arrow1 = new JButton(Assets.yellowTile);
+				arrow1.setBounds(col * Tile.TILE_SIZE, 0 * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				boardPanel.add(arrow1, new Integer(1));
 				
-				JLabel arrow2 = new JLabel(Tile.yellowTile);
-				arrow2.setBounds(col * TILE_SIZE, 8 * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-				boardPanel.add(arrow2);
+				JButton arrow2 = new JButton(Assets.yellowTile);
+				arrow2.setBounds(col * Tile.TILE_SIZE, 8 * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				boardPanel.add(arrow2, new Integer(1));
 				
 			}
 			
@@ -67,13 +99,13 @@ public class LabyrinthGUI extends JFrame {
 			
 			if(row == 2 || row == 4 || row == 6) {
 				
-				JLabel arrow1 = new JLabel(Tile.yellowTile);
-				arrow1.setBounds(0 * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-				boardPanel.add(arrow1);
+				JButton arrow1 = new JButton(Assets.yellowTile);
+				arrow1.setBounds(0 * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				boardPanel.add(arrow1, new Integer(1));
 				
-				JLabel arrow2 = new JLabel(Tile.yellowTile);
-				arrow2.setBounds(8 * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-				boardPanel.add(arrow2);
+				JButton arrow2 = new JButton(Assets.yellowTile);
+				arrow2.setBounds(8 * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				boardPanel.add(arrow2, new Integer(1));
 				
 			}
 			
@@ -82,22 +114,7 @@ public class LabyrinthGUI extends JFrame {
 		//Add the rest of the tiles
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
-				if(row % 2 == 1) {
-					if(col % 2 == 1) {
-						board[col][row] = new Tile("I", Tile.blueTile);
-					} else {
-						board[col][row] = new Tile("L", Tile.greenTile);
-					}
-				} else {
-					if(col % 2 == 1) {
-						board[col][row] = new Tile("L", Tile.greenTile);
-					} else {
-						board[col][row] = new Tile("I", Tile.blueTile);
-					}
-				}
-				
-				board[col][row].setBounds(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-				boardPanel.add(board[col][row]);
+				boardPanel.add(board.getBoard()[col][row], new Integer(1));
 			}
 		}
 		
@@ -113,7 +130,7 @@ public class LabyrinthGUI extends JFrame {
 		
 		//Add the panels
 		add(boardPanel);
-		//add(cardPanel);
+		add(cardPanel);
 
 		//Stop the program from running when the frame is closed, prevent the 
 		//frame from being resized, and make the frame visible
@@ -121,6 +138,19 @@ public class LabyrinthGUI extends JFrame {
 		setResizable(false);
 		setVisible(true);
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+//		for(int row = 1; row < 8; row++) {
+//			for(int col = 1; col < 8; col++) {
+//				if(e.getSource() == board.getBoard()[row][col]) {
+//					
+//				}
+//			}
+//		}
+		
 	}
 	
 }
