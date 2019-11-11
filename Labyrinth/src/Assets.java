@@ -17,11 +17,12 @@ public class Assets {
 	public static ImageIcon redTile = tileImageSetup("Images/redTile.png");
 	public static ImageIcon yellowTile = tileImageSetup("Images/yellowTile.png");
 	public static ImageIcon greenTile = tileImageSetup("Images/greenTile.png");
+	public static ImageIcon whiteTile = tileImageSetup("Images/whiteTile.png");
 	
-	public static ImageIcon p1 = tileImageSetup("Images/blueTile.png");
+	public static ImageIcon p1 = tileImageSetup("Images/translucentGreen.png");
 	public static ImageIcon p2= tileImageSetup("Images/redTile.png");
-	public static ImageIcon p3 = tileImageSetup("Images/yellowTile.png");
-	public static ImageIcon p4 = tileImageSetup("Images/greenTile.png");
+	public static ImageIcon p3 = tileImageSetup("Images/redTile.png");
+	public static ImageIcon p4 = tileImageSetup("Images/redTile.png");
 	//TEMP====================
 	
 	//Corner tiles

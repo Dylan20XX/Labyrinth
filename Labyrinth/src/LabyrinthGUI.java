@@ -23,6 +23,9 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	private JLabel player3Label = new JLabel(Assets.p3);
 	private JLabel player4Label = new JLabel(Assets.p4);
 	
+	private JButton rotateButton = new JButton("Rotate");
+	private JButton confirmButton = new JButton("Confirm");
+	
 	public LabyrinthGUI() {
 		
 		buttonSetup();
@@ -35,13 +38,20 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	
 	//This method places the player on the board
 	private void placePlayer() {
-		player1Label.setBounds(15, 105, 30, 30);
+		player1Label.setBounds(75, 75, 30, 30);
 		boardPanel.add(player1Label, new Integer(2));
 	}
 
 	//This method sets up the buttons used to rotate and place
 	private void buttonSetup() {
 		
+		rotateButton.setBounds(650, 540, 120, 60);
+		rotateButton.addActionListener(this);
+		add(rotateButton);
+		
+		confirmButton.setBounds(1070, 540, 120, 60);
+		confirmButton.addActionListener(this);
+		add(confirmButton);
 		
 	}
 
@@ -84,10 +94,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				
 				JButton arrow1 = new JButton(Assets.yellowTile);
 				arrow1.setBounds(col * Tile.TILE_SIZE, 0 * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				arrow1.addActionListener(this);
 				boardPanel.add(arrow1, new Integer(1));
 				
 				JButton arrow2 = new JButton(Assets.yellowTile);
 				arrow2.setBounds(col * Tile.TILE_SIZE, 8 * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				arrow2.addActionListener(this);
 				boardPanel.add(arrow2, new Integer(1));
 				
 			}
@@ -101,10 +113,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				
 				JButton arrow1 = new JButton(Assets.yellowTile);
 				arrow1.setBounds(0 * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				arrow1.addActionListener(this);
 				boardPanel.add(arrow1, new Integer(1));
 				
 				JButton arrow2 = new JButton(Assets.yellowTile);
 				arrow2.setBounds(8 * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				arrow2.addActionListener(this);
 				boardPanel.add(arrow2, new Integer(1));
 				
 			}
@@ -114,6 +128,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		//Add the rest of the tiles
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
+				board.getBoard()[col][row].addActionListener(this);
 				boardPanel.add(board.getBoard()[col][row], new Integer(1));
 			}
 		}
@@ -143,13 +158,13 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-//		for(int row = 1; row < 8; row++) {
-//			for(int col = 1; col < 8; col++) {
-//				if(e.getSource() == board.getBoard()[row][col]) {
-//					
-//				}
-//			}
-//		}
+		for(int row = 1; row < 8; row++) {
+			for(int col = 1; col < 8; col++) {
+				if(e.getSource() == board.getBoard()[row][col]) {
+					board.getBoard()[row][col].setIcon(Assets.whiteTile);
+				}
+			}
+		}
 		
 	}
 	
