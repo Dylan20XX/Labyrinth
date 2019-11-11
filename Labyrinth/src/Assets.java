@@ -12,6 +12,8 @@ public class Assets {
 	//10 L tiles
 	//12 I tiles
 	
+	// 0 = down 1 = left 2 = up 3 = right
+	
 	//TEMP=====================
 	public static ImageIcon blueTile = tileImageSetup("Images/blueTile.png");
 	public static ImageIcon redTile = tileImageSetup("Images/redTile.png");
@@ -46,15 +48,20 @@ public class Assets {
 	public static ImageIcon treasureTile12;
 
 	//Movable treasure tiles
-	public static ImageIcon treasureTileBat0;
-	public static ImageIcon treasureTileBat1;
-	public static ImageIcon treasureTileBat2;
-	public static ImageIcon treasureTileBat3;
+	public static ImageIcon treasureTileBat[] = new ImageIcon [4];
 	
-	public static ImageIcon treasureTileDragon0;
-	public static ImageIcon treasureTileDragon1;
-	public static ImageIcon treasureTileDragon2;
-	public static ImageIcon treasureTileDragon3;
+	public static ImageIcon treasureTileDragon[] = new ImageIcon [4];
+	
+	public static void Imageinitializer(){
+		treasureTileBat[0]= tileImageSetup("Images/Bat0.png");
+		treasureTileBat[1]= tileImageSetup("Images/Bat1.png");
+		treasureTileBat[2]= tileImageSetup("Images/Bat2.png");
+		treasureTileBat[3]= tileImageSetup("Images/Bat3.png");
+		treasureTileDragon[0] = tileImageSetup("Images/Dragon0.png");
+		treasureTileDragon[1] = tileImageSetup("Images/Dragon1.png");
+		treasureTileDragon[2] = tileImageSetup("Images/Dragon2.png");
+		treasureTileDragon[3] = tileImageSetup("Images/Dragon3.png");
+	}
 	
 	//This method returns a scaled tile image (60x60)
 	private static ImageIcon tileImageSetup(String imagePath) {
@@ -67,5 +74,6 @@ public class Assets {
 		return new ImageIcon(new ImageIcon(imagePath).
 				getImage().getScaledInstance(60,60, Image.SCALE_SMOOTH));
 	}
+	
 	
 }
