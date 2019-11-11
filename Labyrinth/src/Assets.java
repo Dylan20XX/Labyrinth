@@ -61,6 +61,8 @@ public class Assets {
 		treasureTileDragon[1] = tileImageSetup("Images/Dragon1.png");
 		treasureTileDragon[2] = tileImageSetup("Images/Dragon2.png");
 		treasureTileDragon[3] = tileImageSetup("Images/Dragon3.png");
+		//dgasgvd
+		
 	}
 	
 	//This method returns a scaled tile image (60x60)
