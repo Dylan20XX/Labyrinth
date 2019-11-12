@@ -62,6 +62,7 @@ public class Assets {
 		treasureTileDragon[2] = tileImageSetup("Images/Dragon2.png");
 		treasureTileDragon[3] = tileImageSetup("Images/Dragon3.png");
 		//dgasgvd
+		///ghdbdndnbvdcd ngs
 		
 	}
 	
