@@ -2,6 +2,9 @@
 public class Board {
 	
 	private Tile[][] board = new Tile[9][9];
+	
+	//Add an array of JLabels to highlight path
+	
 	//4 L corner tiles
 	//12 T unmovable treasure tiles
 	//6 T movable treasure tiles
@@ -27,6 +30,11 @@ public class Board {
 	
 	public void fillBoard() {
 		
+		//to fill board randomly
+		//generate number from 0 to tileDeck.size() and add the
+		//tile at that index to the board
+		
+		//Temporary fill method
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
 				if(row % 2 == 1) {
