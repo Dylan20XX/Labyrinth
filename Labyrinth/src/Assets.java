@@ -52,7 +52,7 @@ public class Assets {
 	
 	public static ImageIcon treasureTileDragon[] = new ImageIcon [4];
 	
-	public static void Imageinitializer(){
+	public static void imageInitializer(){
 		treasureTileBat[0]= tileImageSetup("Images/Bat0.png");
 		treasureTileBat[1]= tileImageSetup("Images/Bat1.png");
 		treasureTileBat[2]= tileImageSetup("Images/Bat2.png");
