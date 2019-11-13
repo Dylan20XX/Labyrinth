@@ -58,7 +58,7 @@ public class Assets {
 	public static ImageIcon tileGhostBottle[] = new ImageIcon [4];
 	public static ImageIcon permenantTiles[] = new ImageIcon [16];
 	public static ImageIcon treasureCards[] = new ImageIcon [24];
-	
+	//sddsbmd
 	
 	public static void imageInitializer(){
 		//Have an array for each tile that is moving and there are 13 movable tiles in total
