@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
@@ -57,7 +56,7 @@ public class Board {
 //						board[col][row] = new Tile("I", Assets.blueTile);
 //					}
 //				}
-				System.out.println(Tile.tileDeck.size());
+				//System.out.println(Tile.tileDeck.size());
 				int cardIndex = 0;
 				if(Tile.tileDeck.size() > 1) {
 					cardIndex = r.nextInt(Tile.tileDeck.size());

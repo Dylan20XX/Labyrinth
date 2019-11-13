@@ -1,4 +1,3 @@
-import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -16,13 +15,18 @@ public class Tile extends JButton {
 	private int rotation;
 	private boolean[] openings = new boolean[4];
 	
+	//opening array index position
+	//  0
+	//3   1
+	//  2
+	
 	//Constructor for tile with treasure
 	public Tile(String type, String treasure, ImageIcon image) {
 		super();
 		this.type = type;
 		this.hasTreausre = true;
 		this.treasure = treasure;
-		this.rotation = 0;
+		setRotation(0);
 		setIcon(image);
 	}
 	
@@ -32,7 +36,7 @@ public class Tile extends JButton {
 		this.type = type;
 		this.hasTreausre = false;
 		this.treasure = "";
-		this.rotation = 0;
+		setRotation(0);
 		setIcon(image);
 	}
 	
@@ -64,9 +68,52 @@ public class Tile extends JButton {
 	public int getRotation() {
 		return rotation;
 	}
-
+	
+	//Change openings in the rotation setter
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
+		
+		if(type.equals("T")) {
+			
+			for(int i = 0; i < 4; i++) {
+				if(!(i == rotation))
+					openings[i] = true;
+			}
+			
+		} else if(type.equals("L")) {
+			
+			if(rotation == 3) {
+				for(int i = 0; i < 4; i++) {
+					if(i == 3 || i == 0)
+						openings[i] = true;
+					else
+						openings[i] = false;
+				}
+			} else {
+				for(int i = 0; i < 4; i++) {
+					if(i == rotation || i == rotation + 1)
+						openings[i] = true;
+					else
+						openings[i] = false;
+				}
+			}
+			
+		} else if(type.equals("I")) {
+			
+			if(rotation == 0 || rotation == 2) {
+				openings[0] = true;
+				openings[1] = false;
+				openings[2] = true;
+				openings[3] = false;
+			} else if(rotation == 1 || rotation == 3) {
+				openings[0] = false;
+				openings[1] = true;
+				openings[2] = false;
+				openings[3] = true;
+			}
+			
+		}
+		
 	}
 	
 	//toString method
