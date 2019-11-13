@@ -24,7 +24,6 @@ public class Tile extends JButton {
 		this.treasure = treasure;
 		this.rotation = 0;
 		setIcon(image);
-		tileDeck.add(this);
 	}
 	
 	//Constructor for tile without treasure
@@ -35,7 +34,6 @@ public class Tile extends JButton {
 		this.treasure = "";
 		this.rotation = 0;
 		setIcon(image);
-		tileDeck.add(this);
 	}
 	
 	//Getters and setters
@@ -86,27 +84,55 @@ public class Tile extends JButton {
 		//10 L tiles
 		//12 I tiles
 		
-		Tile batTile = new Tile("T", "bat", Assets.blueTile);
-		Tile dragonTile = new Tile("T", "dragon", Assets.blueTile);
-		Tile ghostBottleTile = new Tile("T", "ghostBottle", Assets.blueTile);
-		Tile ghostWavingTile = new Tile("T", "ghostWaving", Assets.blueTile);
-		Tile ladyPigTile = new Tile("T", "ladyPig", Assets.blueTile);
-		Tile sorceressTile = new Tile("T", "sorceress", Assets.blueTile);
+//		Tile batTile = new Tile("T", "bat", Assets.blueTile);
+//		Tile dragonTile = new Tile("T", "dragon", Assets.blueTile);
+//		Tile ghostBottleTile = new Tile("T", "ghostBottle", Assets.blueTile);
+//		Tile ghostWavingTile = new Tile("T", "ghostWaving", Assets.blueTile);
+//		Tile ladyPigTile = new Tile("T", "ladyPig", Assets.blueTile);
+//		Tile sorceressTile = new Tile("T", "sorceress", Assets.blueTile);
+//		
+//		Tile lizardTile = new Tile("T", "lizard", Assets.blueTile);
+//		Tile mothTile = new Tile("T", "moth", Assets.blueTile);
+//		Tile owlTile = new Tile("T", "owl", Assets.blueTile);
+//		Tile ratTile = new Tile("T", "rat", Assets.blueTile);
+//		Tile scarabTile = new Tile("T", "scarab", Assets.blueTile);
+//		Tile spiderTile = new Tile("T", "spider", Assets.blueTile);
+//		
+//		for(int i = 0; i < 10; i++) {
+//			Tile tile = new Tile("L", Assets.blueTile);	
+//		}
+//		
+//		for(int i = 0; i < 12; i++) {
+//			Tile tile = new Tile("I", Assets.blueTile);	
+//		}
 		
-		Tile lizardTile = new Tile("T", "lizard", Assets.blueTile);
-		Tile mothTile = new Tile("T", "moth", Assets.blueTile);
-		Tile owlTile = new Tile("T", "owl", Assets.blueTile);
-		Tile ratTile = new Tile("T", "rat", Assets.blueTile);
-		Tile scarabTile = new Tile("T", "scarab", Assets.blueTile);
-		Tile spiderTile = new Tile("T", "spider", Assets.blueTile);
+		tileDeck.add(new Tile("T", "bat", Assets.blueTile));
+		tileDeck.add(new Tile("T", "dragon", Assets.blueTile));
+		tileDeck.add(new Tile("T", "ghostBottle", Assets.blueTile));
+		tileDeck.add(new Tile("T", "ghostWaving", Assets.blueTile));
+		tileDeck.add(new Tile("T", "ladyPig", Assets.blueTile));
+		tileDeck.add(new Tile("T", "sorceress", Assets.blueTile));
+		
+		tileDeck.add(new Tile("T", "lizard", Assets.blueTile));
+		tileDeck.add(new Tile("T", "moth", Assets.blueTile));
+		tileDeck.add(new Tile("T", "owl", Assets.blueTile));
+		tileDeck.add(new Tile("T", "rat", Assets.blueTile));
+		tileDeck.add(new Tile("T", "scarab", Assets.blueTile));
+		tileDeck.add(new Tile("T", "spider", Assets.blueTile));
 		
 		for(int i = 0; i < 10; i++) {
-			Tile tile = new Tile("L", Assets.blueTile);	
+			tileDeck.add(new Tile("L", Assets.blueTile));	
 		}
 		
 		for(int i = 0; i < 12; i++) {
-			Tile tile = new Tile("I", Assets.blueTile);	
+			tileDeck.add(new Tile("I", Assets.blueTile));	
 		}
+		
+		//Currently filling spots for tiles that are unmovable tiles
+		for(int i = 0; i < 16; i++) {
+			tileDeck.add(new Tile("I", Assets.blueTile));	
+		}
+		
 		
 	}
 	
