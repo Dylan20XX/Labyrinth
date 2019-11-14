@@ -49,8 +49,6 @@ public class Assets {
 	public static ImageIcon treasureTile12;
 
 	//Movable treasure tiles
-	public static ImageIcon treasureTileBat[] = new ImageIcon [4];
-	public static ImageIcon treasureTileDragon[] = new ImageIcon [4];
 	public static ImageIcon tileL[] = new ImageIcon [4];
 	public static ImageIcon tileI[] = new ImageIcon [4];
 	public static ImageIcon tileDragon[] = new ImageIcon [4];
@@ -71,11 +69,6 @@ public class Assets {
 	
 	public static void imageInitializer(){
 		//Have an array for each tile that is moving and there are 13 movable tiles in total
-		
-		treasureTileBat[0]= tileImageSetup("Images/Bat0.png");
-		treasureTileBat[1]= tileImageSetup("Images/Bat1.png");
-		treasureTileBat[2]= tileImageSetup("Images/Bat2.png");
-		treasureTileBat[3]= tileImageSetup("Images/Bat3.png");
 		
 		tileL[0]= tileImageSetup("Images/L0.png");
 		tileL[1]= tileImageSetup("Images/L1.png");
@@ -146,11 +139,6 @@ public class Assets {
 		tileBat[1]= tileImageSetup("Images/Bat1.png");
 		tileBat[2]= tileImageSetup("Images/Bat2.png");
 		tileBat[3]= tileImageSetup("Images/Bat3.png");
-		
-		treasureTileDragon[0] = tileImageSetup("Images/Dragon0.png");
-		treasureTileDragon[1] = tileImageSetup("Images/Dragon1.png");
-		treasureTileDragon[2] = tileImageSetup("Images/Dragon2.png");
-		treasureTileDragon[3] = tileImageSetup("Images/Dragon3.png");
 		
 		permenantTiles[0] = tileImageSetup("Images/RedCornerTile.png");
 		permenantTiles[1] = tileImageSetup("Images/BookTile.png");

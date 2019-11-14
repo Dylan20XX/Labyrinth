@@ -18,7 +18,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	
 	private JPanel cardPanel = new JPanel();
 	
-	private JLabel player1Label = new JLabel(Assets.treasureTileBat[0]);
+	private JLabel player1Label = new JLabel(Assets.tileBat[0]);
 	private JLabel player2Label = new JLabel(Assets.p2);
 	private JLabel player3Label = new JLabel(Assets.p3);
 	private JLabel player4Label = new JLabel(Assets.p4);

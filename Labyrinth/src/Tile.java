@@ -188,8 +188,8 @@ public class Tile extends JButton {
 //			Tile tile = new Tile("I", Assets.blueTile);	
 //		}
 		
-		tileDeck.add(new Tile("T", "bat", Assets.treasureTileBat));
-		tileDeck.add(new Tile("T", "dragon", Assets.treasureTileDragon));
+		tileDeck.add(new Tile("T", "bat", Assets.tileBat));
+		tileDeck.add(new Tile("T", "dragon", Assets.tileDragon));
 		tileDeck.add(new Tile("T", "ghostBottle", Assets.tileGhostBottle));
 		tileDeck.add(new Tile("T", "ghostWaving", Assets.tileGhostWaving));
 		tileDeck.add(new Tile("T", "ladyPig", Assets.blueTile));
