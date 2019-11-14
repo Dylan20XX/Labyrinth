@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -16,9 +17,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	//60x60 tiles 540x540 board
 	
 	private JPanel cardPanel = new JPanel();
-	private JLayeredPane layers = new JLayeredPane();
 	
-	private JLabel player1Label = new JLabel(Assets.p1);
+	private JLabel player1Label = new JLabel(Assets.treasureTileBat[0]);
 	private JLabel player2Label = new JLabel(Assets.p2);
 	private JLabel player3Label = new JLabel(Assets.p3);
 	private JLabel player4Label = new JLabel(Assets.p4);
