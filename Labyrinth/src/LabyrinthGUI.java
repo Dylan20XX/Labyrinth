@@ -161,10 +161,13 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
 				if(e.getSource() == board.getBoard()[row][col]) {
-					player1Label.setLocation(board.getBoard()[row][col].getX() + 
-							15, board.getBoard()[row][col].getY() + 15);
-					board.getBoard()[row][col].setIcon(Assets.whiteTile);
-					
+//					player1Label.setLocation(board.getBoard()[row][col].getX() + 
+//							15, board.getBoard()[row][col].getY() + 15);
+//					board.getBoard()[row][col].setIcon(Assets.whiteTile);
+					if(board.getBoard()[row][col].getRotation() != 3)
+						board.getBoard()[row][col].setRotation(board.getBoard()[row][col].getRotation()+1);
+					else
+						board.getBoard()[row][col].setRotation(0);
 				}
 			}
 		}

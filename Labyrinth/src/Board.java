@@ -32,8 +32,6 @@ public class Board {
 	
 	public void fillBoard() {
 		
-		fillTileDeck();
-		
 		//to fill board randomly
 		//generate number from 0 to tileDeck.size() and add the
 		//tile at that index to the board
@@ -69,13 +67,10 @@ public class Board {
 		
 	}
 	
-	private void fillTileDeck() {
-		
-		
-	}
-	
-	public void pushColDown() {
-		
+	public void pushColDown(int col) {
+		for(int row = 8; row > 0; row--) {
+			board[row][col] = board[row - 1][col];
+		}
 	}
 	
 	public void pushColUp() {
@@ -89,5 +84,7 @@ public class Board {
 	public void pushRowDown() {
 		
 	}
+	
+	
 	
 }

@@ -20,7 +20,10 @@ public class Tile extends JButton {
 	//3   1
 	//  2
 	
-	//Constructor for tile with treasure
+	private ImageIcon[] images;
+	private int nodeNum; //determined by position on the board (1-49)
+	
+	//Constructor for tile immovable tile with treasure
 	public Tile(String type, String treasure, ImageIcon image) {
 		super();
 		this.type = type;
@@ -30,14 +33,24 @@ public class Tile extends JButton {
 		setIcon(image);
 	}
 	
+	//Constructor 
+	public Tile(String type, String treasure, ImageIcon[] images) {
+		super();
+		this.type = type;
+		this.hasTreausre = true;
+		this.treasure = treasure;
+		this.images = images;
+		setRotation(0);
+	}
+	
 	//Constructor for tile without treasure
 	public Tile(String type, ImageIcon image) {
 		super();
 		this.type = type;
 		this.hasTreausre = false;
 		this.treasure = "";
-		setRotation(0);
 		setIcon(image);
+		setRotation(0);
 	}
 	
 	//Getters and setters
@@ -73,6 +86,12 @@ public class Tile extends JButton {
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 		
+		//If the tile is movable set its image icon
+		if(images != null) {
+			setIcon(images[rotation]);
+			System.out.println("tile"); //test
+		}
+			
 		if(type.equals("T")) {
 			
 			for(int i = 0; i < 4; i++) {
@@ -116,6 +135,22 @@ public class Tile extends JButton {
 		
 	}
 	
+	public boolean[] getOpenings() {
+		return openings;
+	}
+
+	public void setOpenings(boolean[] openings) {
+		this.openings = openings;
+	}
+
+	public ImageIcon[] getImages() {
+		return images;
+	}
+
+	public void setImages(ImageIcon[] images) {
+		this.images = images;
+	}
+
 	//toString method
 	@Override
 	public String toString() {
@@ -153,10 +188,10 @@ public class Tile extends JButton {
 //			Tile tile = new Tile("I", Assets.blueTile);	
 //		}
 		
-		tileDeck.add(new Tile("T", "bat", Assets.blueTile));
-		tileDeck.add(new Tile("T", "dragon", Assets.blueTile));
-		tileDeck.add(new Tile("T", "ghostBottle", Assets.blueTile));
-		tileDeck.add(new Tile("T", "ghostWaving", Assets.blueTile));
+		tileDeck.add(new Tile("T", "bat", Assets.treasureTileBat));
+		tileDeck.add(new Tile("T", "dragon", Assets.treasureTileDragon));
+		tileDeck.add(new Tile("T", "ghostBottle", Assets.tileGhostBottle));
+		tileDeck.add(new Tile("T", "ghostWaving", Assets.tileGhostWaving));
 		tileDeck.add(new Tile("T", "ladyPig", Assets.blueTile));
 		tileDeck.add(new Tile("T", "sorceress", Assets.blueTile));
 		

@@ -5,8 +5,8 @@ public class LabyrinthTest {
 	//Saving/file input
 	
 	public static void main(String[] args) {
-		Tile.setupTileDeck();
 		Assets.imageInitializer();
+		Tile.setupTileDeck();
 		new LabyrinthGUI();
 	}
 	
