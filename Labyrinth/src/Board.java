@@ -5,6 +5,10 @@ public class Board {
 	private Tile[][] board = new Tile[9][9];
 	private Random r = new Random();
 	
+	private int x; //col
+	private int y; //row
+	
+	
 	//Add an array of JLabels to highlight path
 	
 	//4 L corner tiles
@@ -67,11 +71,9 @@ public class Board {
 		
 	}
 	
-	
-	
 	public void pushColDown(int col) {
-		for(int row = 8; row > 0; row--){
-			board[row][col] = board[row-1][col];
+		for(int row = 8; row > 0; row--) {
+			board[row][col] = board[row - 1][col];
 		}
 	}
 	
@@ -92,6 +94,24 @@ public class Board {
 		for(int col = 0; col < 8; col++ ){
 			board[row][col] = board[row][col+1];
 		}
+	}
+	
+	public void pushColUp() {
+		
+	}
+	
+	public void pushRowRight() {
+		
+	}
+	
+	public void pushRowDown() {
+		
+
+	}
+	
+	//This method will be used to find
+	public void pathfind() {
+		
 	}
 	
 }

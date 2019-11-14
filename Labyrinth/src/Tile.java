@@ -20,7 +20,10 @@ public class Tile extends JButton {
 	//3   1
 	//  2
 	
-	//Constructor for tile with treasure
+	private ImageIcon[] images;
+	private int nodeNum; //determined by position on the board (1-49)
+	
+	//Constructor for immovable tile with treasure
 	public Tile(String type, String treasure, ImageIcon image) {
 		super();
 		this.type = type;
@@ -30,14 +33,33 @@ public class Tile extends JButton {
 		setIcon(image);
 	}
 	
-	//Constructor for tile without treasure
+	//Constructor for movable tile with treasure
+	public Tile(String type, String treasure, ImageIcon[] images) {
+		super();
+		this.type = type;
+		this.hasTreausre = true;
+		this.treasure = treasure;
+		this.images = images;
+		setRotation(0);
+	}
+	
+	//Constructor for immovable tile without treasure
 	public Tile(String type, ImageIcon image) {
 		super();
 		this.type = type;
 		this.hasTreausre = false;
 		this.treasure = "";
-		setRotation(0);
 		setIcon(image);
+		setRotation(0);
+	}
+	
+	public Tile(String type, ImageIcon images[]) {
+		super();
+		this.type = type;
+		this.hasTreausre = false;
+		this.treasure = "";
+		this.images = images;
+		setRotation(0);
 	}
 	
 	//Getters and setters
@@ -73,6 +95,10 @@ public class Tile extends JButton {
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 		
+		//If the tile is movable set its image icon
+		if(images != null) 
+			setIcon(images[rotation]);
+			
 		if(type.equals("T")) {
 			
 			for(int i = 0; i < 4; i++) {
@@ -116,6 +142,22 @@ public class Tile extends JButton {
 		
 	}
 	
+	public boolean[] getOpenings() {
+		return openings;
+	}
+
+	public void setOpenings(boolean[] openings) {
+		this.openings = openings;
+	}
+
+	public ImageIcon[] getImages() {
+		return images;
+	}
+
+	public void setImages(ImageIcon[] images) {
+		this.images = images;
+	}
+
 	//toString method
 	@Override
 	public String toString() {
@@ -153,31 +195,31 @@ public class Tile extends JButton {
 //			Tile tile = new Tile("I", Assets.blueTile);	
 //		}
 		
-		tileDeck.add(new Tile("T", "bat", Assets.blueTile));
-		tileDeck.add(new Tile("T", "dragon", Assets.blueTile));
-		tileDeck.add(new Tile("T", "ghostBottle", Assets.blueTile));
-		tileDeck.add(new Tile("T", "ghostWaving", Assets.blueTile));
-		tileDeck.add(new Tile("T", "ladyPig", Assets.blueTile));
-		tileDeck.add(new Tile("T", "sorceress", Assets.blueTile));
+		tileDeck.add(new Tile("T", "bat", Assets.tileBat));
+		tileDeck.add(new Tile("T", "dragon", Assets.tileDragon));
+		tileDeck.add(new Tile("T", "ghostBottle", Assets.tileGhostBottle));
+		tileDeck.add(new Tile("T", "ghostWaving", Assets.tileGhostWaving));
+		tileDeck.add(new Tile("T", "ladyPig", Assets.tileLadyPig));
+		tileDeck.add(new Tile("T", "sorceress", Assets.tileSorceress));
 		
-		tileDeck.add(new Tile("T", "lizard", Assets.blueTile));
-		tileDeck.add(new Tile("T", "moth", Assets.blueTile));
-		tileDeck.add(new Tile("T", "owl", Assets.blueTile));
-		tileDeck.add(new Tile("T", "rat", Assets.blueTile));
-		tileDeck.add(new Tile("T", "scarab", Assets.blueTile));
-		tileDeck.add(new Tile("T", "spider", Assets.blueTile));
+		tileDeck.add(new Tile("T", "lizard", Assets.tileLizard));
+		tileDeck.add(new Tile("T", "moth", Assets.tileMoth));
+		tileDeck.add(new Tile("T", "owl", Assets.tileOwl));
+		tileDeck.add(new Tile("T", "rat", Assets.tileRat));
+		tileDeck.add(new Tile("T", "scarab", Assets.tileScarab));
+		tileDeck.add(new Tile("T", "spider", Assets.tileSpider));
 		
 		for(int i = 0; i < 10; i++) {
-			tileDeck.add(new Tile("L", Assets.blueTile));	
+			tileDeck.add(new Tile("L", Assets.tileL));	
 		}
 		
 		for(int i = 0; i < 12; i++) {
-			tileDeck.add(new Tile("I", Assets.blueTile));	
+			tileDeck.add(new Tile("I", Assets.tileI));	
 		}
 		
 		//Currently filling spots for tiles that are unmovable tiles
 		for(int i = 0; i < 16; i++) {
-			tileDeck.add(new Tile("I", Assets.blueTile));	
+			tileDeck.add(new Tile("I", Assets.permenantTiles[i]));	
 		}
 		
 		
