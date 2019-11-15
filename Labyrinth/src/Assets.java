@@ -145,7 +145,7 @@ public class Assets {
 		permenantTiles[2] = tileImageSetup("Images/BagTile.png");
 		permenantTiles[3] = tileImageSetup("Images/YellowTileCorner.png");
 		permenantTiles[4] = tileImageSetup("Images/PaintingTile.png");
-		permenantTiles[5] = tileImageSetup("Images/Crown.png");
+		permenantTiles[5] = tileImageSetup("Images/CrownTile.png");
 		permenantTiles[6] = tileImageSetup("Images/KeysTile.png");
 		permenantTiles[7] = tileImageSetup("Images/SkullTile.png");
 		permenantTiles[8] = tileImageSetup("Images/RingTile.png");
