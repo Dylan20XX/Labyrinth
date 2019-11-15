@@ -38,8 +38,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	
 	//This method places the player on the board
 	private void placePlayer() {
-		player1Label.setBounds(75, 75, 30, 30);
-		boardPanel.add(player1Label, new Integer(2));
+//		player1Label.setBounds(75, 75, 30, 30);
+//		boardPanel.add(player1Label, new Integer(2));
 	}
 
 	//This method sets up the buttons used to rotate and place

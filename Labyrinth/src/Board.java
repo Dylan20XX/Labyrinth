@@ -40,32 +40,44 @@ public class Board {
 		//generate number from 0 to tileDeck.size() and add the
 		//tile at that index to the board
 		
-		//*add functionality to fill unmovable tiles
+		//Fill unmovable tiles
+		board[1][1] = new Tile("L", Assets.permenantTiles[0], 1);
+		board[1][3] = new Tile("T", Assets.permenantTiles[1], 0);
+		board[1][5] = new Tile("T", Assets.permenantTiles[2], 0);
+		board[1][7] = new Tile("L", Assets.permenantTiles[3], 2);
+		
+		board[3][1] = new Tile("T", Assets.permenantTiles[4], 3);
+		board[3][3] = new Tile("T", Assets.permenantTiles[5], 3);
+		board[3][5] = new Tile("T", Assets.permenantTiles[6], 0);
+		board[3][7] = new Tile("T", Assets.permenantTiles[7], 1);
+		
+		board[5][1] = new Tile("T", Assets.permenantTiles[8], 3);
+		board[5][3] = new Tile("T", Assets.permenantTiles[9], 2);
+		board[5][5] = new Tile("T", Assets.permenantTiles[10], 1);
+		board[5][7] = new Tile("T", Assets.permenantTiles[11], 1);
+		
+		board[7][1] = new Tile("L", Assets.permenantTiles[12], 0);
+		board[7][3] = new Tile("T", Assets.permenantTiles[13], 2);
+		board[7][5] = new Tile("T", Assets.permenantTiles[14], 2);
+		board[7][7] = new Tile("L", Assets.permenantTiles[15], 3);
 		
 		//Fill the board with random tiles
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
-//				if(row % 2 == 1) {
-//					if(col % 2 == 1) {
-//						board[col][row] = new Tile("I", Assets.blueTile);
-//					} else {
-//						board[col][row] = new Tile("L", Assets.greenTile);
-//					}
-//				} else {
-//					if(col % 2 == 1) {
-//						board[col][row] = new Tile("L", Assets.greenTile);
-//					} else {
-//						board[col][row] = new Tile("I", Assets.blueTile);
-//					}
-//				}
-				//System.out.println(Tile.tileDeck.size());
-				int cardIndex = 0;
-				if(Tile.tileDeck.size() > 1) {
-					cardIndex = r.nextInt(Tile.tileDeck.size());
-				}
-				board[col][row] = Tile.tileDeck.remove(cardIndex);
 				
-				board[col][row].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				//Fill the spots that have no permanent tiles
+				if(board[row][col] == null) {
+					int cardIndex = 0;
+					if(Tile.tileDeck.size() > 1) {
+						cardIndex = r.nextInt(Tile.tileDeck.size());
+					}
+					board[row][col] = Tile.tileDeck.remove(cardIndex);
+					
+				}
+				
+				//Set the bounds of all tiles on the board
+				board[row][col].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
+				
 			}
 		}
 		

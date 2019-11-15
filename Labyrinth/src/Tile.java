@@ -6,7 +6,6 @@ import javax.swing.JButton;
 public class Tile extends JButton {
 	
 	public static ArrayList<Tile> tileDeck = new ArrayList<Tile>();
-	public static Tile defaultTile = new Tile("I", Assets.blueTile);
 	public static final int TILE_SIZE = 60;
 	
 	private String type; //I, T, or L tile
@@ -44,13 +43,13 @@ public class Tile extends JButton {
 	}
 	
 	//Constructor for immovable tile without treasure
-	public Tile(String type, ImageIcon image) {
+	public Tile(String type, ImageIcon image, int rotation) {
 		super();
 		this.type = type;
 		this.hasTreausre = false;
 		this.treasure = "";
 		setIcon(image);
-		setRotation(0);
+		setRotation(rotation);
 	}
 	
 	public Tile(String type, ImageIcon images[]) {
@@ -166,34 +165,13 @@ public class Tile extends JButton {
 	
 	//This method sets up the tile deck
 	public static void setupTileDeck() {
+		
 		//4 L corner tiles
 		//12 T unmovable treasure tiles
 		//6 T movable treasure tiles - bat, dragon, ghost bottle, ghost waving, lady pig, sorceress
 		//6 L movable treasure tiles - lizard, moth, owl, rat, scarab, spider
 		//10 L tiles
 		//12 I tiles
-		
-//		Tile batTile = new Tile("T", "bat", Assets.blueTile);
-//		Tile dragonTile = new Tile("T", "dragon", Assets.blueTile);
-//		Tile ghostBottleTile = new Tile("T", "ghostBottle", Assets.blueTile);
-//		Tile ghostWavingTile = new Tile("T", "ghostWaving", Assets.blueTile);
-//		Tile ladyPigTile = new Tile("T", "ladyPig", Assets.blueTile);
-//		Tile sorceressTile = new Tile("T", "sorceress", Assets.blueTile);
-//		
-//		Tile lizardTile = new Tile("T", "lizard", Assets.blueTile);
-//		Tile mothTile = new Tile("T", "moth", Assets.blueTile);
-//		Tile owlTile = new Tile("T", "owl", Assets.blueTile);
-//		Tile ratTile = new Tile("T", "rat", Assets.blueTile);
-//		Tile scarabTile = new Tile("T", "scarab", Assets.blueTile);
-//		Tile spiderTile = new Tile("T", "spider", Assets.blueTile);
-//		
-//		for(int i = 0; i < 10; i++) {
-//			Tile tile = new Tile("L", Assets.blueTile);	
-//		}
-//		
-//		for(int i = 0; i < 12; i++) {
-//			Tile tile = new Tile("I", Assets.blueTile);	
-//		}
 		
 		tileDeck.add(new Tile("T", "bat", Assets.tileBat));
 		tileDeck.add(new Tile("T", "dragon", Assets.tileDragon));
@@ -215,11 +193,6 @@ public class Tile extends JButton {
 		
 		for(int i = 0; i < 12; i++) {
 			tileDeck.add(new Tile("I", Assets.tileI));	
-		}
-		
-		//Currently filling spots for tiles that are unmovable tiles
-		for(int i = 0; i < 16; i++) {
-			tileDeck.add(new Tile("I", Assets.permenantTiles[i]));	
 		}
 		
 		
