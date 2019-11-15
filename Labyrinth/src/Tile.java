@@ -20,16 +20,16 @@ public class Tile extends JButton {
 	//  2
 	
 	private ImageIcon[] images;
-	private int nodeNum; //determined by position on the board (1-49)
+	private int nodeNum; //determined by position on the board (1-49) = (row - 1) * 7 + col
 	
-	//Constructor for immovable tile with treasure
-	public Tile(String type, String treasure, ImageIcon image) {
+	//Constructor for movable tile without treasure
+	public Tile(String type, ImageIcon images[]) {
 		super();
 		this.type = type;
-		this.hasTreausre = true;
-		this.treasure = treasure;
+		this.hasTreausre = false;
+		this.treasure = "";
+		this.images = images;
 		setRotation(0);
-		setIcon(image);
 	}
 	
 	//Constructor for movable tile with treasure
@@ -52,13 +52,14 @@ public class Tile extends JButton {
 		setRotation(rotation);
 	}
 	
-	public Tile(String type, ImageIcon images[]) {
+	//Constructor for immovable tile with treasure
+	public Tile(String type, String treasure, ImageIcon image, int rotation) {
 		super();
 		this.type = type;
 		this.hasTreausre = false;
-		this.treasure = "";
-		this.images = images;
-		setRotation(0);
+		this.treasure = treasure;
+		setIcon(image);
+		setRotation(rotation);
 	}
 	
 	//Getters and setters
@@ -155,6 +156,14 @@ public class Tile extends JButton {
 
 	public void setImages(ImageIcon[] images) {
 		this.images = images;
+	}
+
+	public int getNodeNum() {
+		return nodeNum;
+	}
+
+	public void setNodeNum(int nodeNum) {
+		this.nodeNum = nodeNum;
 	}
 
 	//toString method

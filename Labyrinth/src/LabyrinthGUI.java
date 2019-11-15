@@ -128,8 +128,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		//Add the rest of the tiles
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
-				board.getBoard()[col][row].addActionListener(this);
-				boardPanel.add(board.getBoard()[col][row], new Integer(1));
+				board.getBoard()[row][col].addActionListener(this);
+				boardPanel.add(board.getBoard()[row][col], new Integer(1));
 			}
 		}
 		

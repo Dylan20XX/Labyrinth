@@ -157,30 +157,31 @@ public class Assets {
 		permenantTiles[14] = tileImageSetup("Images/MonsterTile.png");
 		permenantTiles[15] = tileImageSetup("Images/BlueCornerTile.png");
 		
-		treasureCards[0] = tileImageSetup("Images/CardSkull.png");
-		treasureCards[1] = tileImageSetup("Images/CardMoth.png");
-		treasureCards[2] = tileImageSetup("Images/CardBottle.png");
-		treasureCards[3] = tileImageSetup("Images/CardCandles.png");
-		treasureCards[4] = tileImageSetup("Images/CardGhostWaving.png");
-		treasureCards[5] = tileImageSetup("Images/CardGhostBottle.png");
-		treasureCards[6] = tileImageSetup("Images/CardPainting.png");
-		treasureCards[7] = tileImageSetup("Images/CardSorceress.png");
-		treasureCards[8] = tileImageSetup("Images/CardSpider.png");
-		treasureCards[9] = tileImageSetup("Images/CardBat.png");
-		treasureCards[10] = tileImageSetup("Images/CardRat.png");
-		treasureCards[11] = tileImageSetup("Images/CardBag.png");
-		treasureCards[12] = tileImageSetup("Images/CardSword.png");
-		treasureCards[13] = tileImageSetup("Images/CardMonster.png");
-		treasureCards[14] = tileImageSetup("Images/CardKeys.png");
-		treasureCards[15] = tileImageSetup("Images/CardGreen.png");
-		treasureCards[16] = tileImageSetup("Images/CardScarab.png");
-		treasureCards[17] = tileImageSetup("Images/CardLadyPig.png");
-		treasureCards[18] = tileImageSetup("Images/CardLizard.png");
+		treasureCards[0] = tileImageSetup("Images/CardBook.png");
+		treasureCards[1] = tileImageSetup("Images/CardBag.png");
+		treasureCards[2] = tileImageSetup("Images/CardPainting.png");
+		treasureCards[3] = tileImageSetup("Images/CardCrown.png");
+		treasureCards[4] = tileImageSetup("Images/CardKeys.png");
+		treasureCards[5] = tileImageSetup("Images/CardSkull.png");
+		treasureCards[6] = tileImageSetup("Images/CardRing.png");
+		treasureCards[7] = tileImageSetup("Images/CardBottle.png");
+		treasureCards[8] = tileImageSetup("Images/CardGreen.png");
+		treasureCards[9] = tileImageSetup("Images/CardSword.png");
+		treasureCards[10] = tileImageSetup("Images/CardCandles.png");
+		treasureCards[11] = tileImageSetup("Images/CardMonster.png");
+		
+		treasureCards[12] = tileImageSetup("Images/CardBat.png");
+		treasureCards[13] = tileImageSetup("Images/CardDragon.png");
+		treasureCards[14] = tileImageSetup("Images/CardGhostBottle.png");
+		treasureCards[15] = tileImageSetup("Images/CardGhostWaving.png");
+		treasureCards[16] = tileImageSetup("Images/CardLadyPig.png");
+		treasureCards[17] = tileImageSetup("Images/CardLizard.png");
+		treasureCards[18] = tileImageSetup("Images/CardMoth.png");
 		treasureCards[19] = tileImageSetup("Images/CardOwl.png");
-		treasureCards[20] = tileImageSetup("Images/CardBook.png");
-		treasureCards[21] = tileImageSetup("Images/CardRing.png");
-		treasureCards[22] = tileImageSetup("Images/CardDragon.png");
-		treasureCards[23] = tileImageSetup("Images/CardCrown.png");
+		treasureCards[20] = tileImageSetup("Images/CardRat.png");
+		treasureCards[21] = tileImageSetup("Images/CardScarab.png");
+		treasureCards[22] = tileImageSetup("Images/CardSorceress.png");
+		treasureCards[23] = tileImageSetup("Images/CardSpider.png");
 		
 	}
 	
