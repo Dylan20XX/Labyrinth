@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 public class Board {
@@ -132,7 +134,36 @@ public class Board {
 	//This method will be used to find pieces connected to the piece that the player is on
 	public void pathfind(int row, int col) {
 		
-		int nodeNum = (row - 1) * 7 + col;
+		int nodeNum = (row - 1) * 7 + col; //start point
+		//row = nodeNum / 7 + 1
+		//col = nodeNum % 7
+
+        int D = 50; //end point set to an impossible number to check for all possible paths
+        
+        int dis[] = new int[50];
+        boolean vis[] = new boolean[50];
+        Queue<Integer> Q = new LinkedList<Integer>();
+
+        Q.add(nodeNum);
+        vis[nodeNum] = true;
+        dis[nodeNum] = 0;
+        
+        //Run BFS to check for all pathways
+        while(!Q.isEmpty()) {
+            int cur = Q.poll();
+                for(int v : adj[cur]) {
+                    if(!vis[v]) {
+                       Q.add(v);
+                       vis[v] = true;
+                       dis[v] = dis[cur]+1;
+                    }
+                    if(v == D) break;	
+                }
+            if(vis[D]) break;	
+        }
+        if(vis[D]) System.out.println(dis[D]);
+        else System.out.println(-1);
+
 		
 	}
 	
@@ -146,12 +177,16 @@ public class Board {
 			for(int col = 1; col < 8; col++) {
 				
 				//Check if piece to the right is connected
-				if(board[row][col].getOpenings()[1] && board[row][col + 1] != null && board[row][col + 1].getOpenings()[3])
+				if(board[row][col].getOpenings()[1] && board[row][col + 1] != null && board[row][col + 1].getOpenings()[3]) {
 					adj[board[row][col].getNodeNum()].add(board[row][col + 1].getNodeNum());
+					adj[board[row][col + 1].getNodeNum()].add(board[row][col].getNodeNum()); //Undirected graph
+				}
 				
 				//Check if piece below is connected
-				if(board[row][col].getOpenings()[2] && board[row + 1][col] != null && board[row + 1][col].getOpenings()[0])
+				if(board[row][col].getOpenings()[2] && board[row + 1][col] != null && board[row + 1][col].getOpenings()[0]) {
 					adj[board[row][col].getNodeNum()].add(board[row + 1][col].getNodeNum());
+					adj[board[row + 1][col].getNodeNum()].add(board[row][col].getNodeNum()); //Undirected graph
+				}
 				
 			}
 		}
