@@ -1,7 +1,7 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,14 +14,20 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	
 	private JLayeredPane boardPanel = new JLayeredPane();
 	private Board board = new Board();
+	private JLabel titleLabel = new JLabel("Labyrinth");
 	//60x60 tiles 540x540 board
 	
 	private JPanel cardPanel = new JPanel();
 	
 	private Player player1 = new Player(Assets.tileBat[0]);
-	private JLabel player2 = new JLabel(Assets.p2);
-	private JLabel player3 = new JLabel(Assets.p3);
-	private JLabel player4 = new JLabel(Assets.p4);
+	private Player player2 = new Player(Assets.p2);
+	private Player player3 = new Player(Assets.p3);
+	private Player player4 = new Player(Assets.p4);
+	
+	private JLabel player1CardHeading = new JLabel("P1");
+	private JLabel player2CardHeading = new JLabel("P2");
+	private JLabel player3CardHeading = new JLabel("P3");
+	private JLabel player4CardHeading = new JLabel("P4");
 	
 	private JButton rotateButton = new JButton("Rotate");
 	private JButton confirmButton = new JButton("Confirm");
@@ -38,8 +44,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	
 	//This method places the player on the board
 	private void placePlayer() {
-//		player1Label.setBounds(75, 75, 30, 30);
-//		boardPanel.add(player1Label, new Integer(2));
+		player1.setBounds(75, 75, 30, 30);
+		boardPanel.add(player1, new Integer(2));
 	}
 
 	//This method sets up the buttons used to rotate and place
@@ -62,11 +68,51 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		cardPanel.setLayout(null);
 		cardPanel.setBounds(650, 90, Tile.TILE_SIZE * 9, 400);
 		cardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		player1CardHeading.setBounds(20, 35, 50, 30);
+		player1CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		cardPanel.add(player1CardHeading);
+		
+		player2CardHeading.setBounds(20, 135, 50, 30);
+		player2CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		cardPanel.add(player2CardHeading);
+		
+		player3CardHeading.setBounds(20, 235, 50, 30);
+		player3CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		cardPanel.add(player3CardHeading);
+		
+		player4CardHeading.setBounds(20, 335, 50, 30);
+		player4CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		cardPanel.add(player4CardHeading);
+		
+		displayCards();
 
 	}
 	
 	//This method displays the cards on card panel
 	private void displayCards() {
+		
+		//Cards can have height of 100
+		
+		for(int i = 0; i < player1.getHand().size(); i++) {
+			player1.getHand().get(i).setBounds(100 + (i * 80), 0, 80, 100);
+			cardPanel.add(player1.getHand().get(i));
+		}
+		
+		for(int i = 0; i < player2.getHand().size(); i++) {
+			player2.getHand().get(i).setBounds(100 + (i * 80), 100, 80, 100);
+			cardPanel.add(player2.getHand().get(i));
+		}
+		
+		for(int i = 0; i < player3.getHand().size(); i++) {
+			player3.getHand().get(i).setBounds(100 + (i * 80), 200, 80, 100);
+			cardPanel.add(player3.getHand().get(i));
+		}
+		
+		for(int i = 0; i < player4.getHand().size(); i++) {
+			player4.getHand().get(i).setBounds(100 + (i * 80), 300, 80, 100);
+			cardPanel.add(player4.getHand().get(i));
+		}
 		
 	}
 	
@@ -151,6 +197,11 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		//Add the panels
 		add(boardPanel);
 		add(cardPanel);
+		
+		//Add the title label
+		titleLabel.setFont(new Font("Ultra", Font.BOLD, 36));
+		titleLabel.setBounds(540, 15, 200, 40);
+		add(titleLabel);
 
 		//Stop the program from running when the frame is closed, prevent the 
 		//frame from being resized, and make the frame visible

@@ -157,44 +157,52 @@ public class Assets {
 		permenantTiles[14] = tileImageSetup("Images/MonsterTile.png");
 		permenantTiles[15] = tileImageSetup("Images/BlueCornerTile.png");
 		
-		treasureCards[0] = tileImageSetup("Images/CardBook.png");
-		treasureCards[1] = tileImageSetup("Images/CardBag.png");
-		treasureCards[2] = tileImageSetup("Images/CardPainting.png");
-		treasureCards[3] = tileImageSetup("Images/CardCrown.png");
-		treasureCards[4] = tileImageSetup("Images/CardKeys.png");
-		treasureCards[5] = tileImageSetup("Images/CardSkull.png");
-		treasureCards[6] = tileImageSetup("Images/CardRing.png");
-		treasureCards[7] = tileImageSetup("Images/CardBottle.png");
-		treasureCards[8] = tileImageSetup("Images/CardGreen.png");
-		treasureCards[9] = tileImageSetup("Images/CardSword.png");
-		treasureCards[10] = tileImageSetup("Images/CardCandles.png");
-		treasureCards[11] = tileImageSetup("Images/CardMonster.png");
+		//Non-movable cards
+		treasureCards[0] = cardImageSetup("Images/CardBook.png");
+		treasureCards[1] = cardImageSetup("Images/CardBag.png");
+		treasureCards[2] = cardImageSetup("Images/CardPainting.png");
+		treasureCards[3] = cardImageSetup("Images/CardCrown.png");
+		treasureCards[4] = cardImageSetup("Images/CardKeys.png");
+		treasureCards[5] = cardImageSetup("Images/CardSkull.png");
+		treasureCards[6] = cardImageSetup("Images/CardRing.png");
+		treasureCards[7] = cardImageSetup("Images/CardBottle.png");
+		treasureCards[8] = cardImageSetup("Images/CardGreen.png");
+		treasureCards[9] = cardImageSetup("Images/CardSword.png");
+		treasureCards[10] = cardImageSetup("Images/CardCandles.png");
+		treasureCards[11] = cardImageSetup("Images/CardMonster.png");
 		
-		treasureCards[12] = tileImageSetup("Images/CardBat.png");
-		treasureCards[13] = tileImageSetup("Images/CardDragon.png");
-		treasureCards[14] = tileImageSetup("Images/CardGhostBottle.png");
-		treasureCards[15] = tileImageSetup("Images/CardGhostWaving.png");
-		treasureCards[16] = tileImageSetup("Images/CardLadyPig.png");
-		treasureCards[17] = tileImageSetup("Images/CardLizard.png");
-		treasureCards[18] = tileImageSetup("Images/CardMoth.png");
-		treasureCards[19] = tileImageSetup("Images/CardOwl.png");
-		treasureCards[20] = tileImageSetup("Images/CardRat.png");
-		treasureCards[21] = tileImageSetup("Images/CardScarab.png");
-		treasureCards[22] = tileImageSetup("Images/CardSorceress.png");
-		treasureCards[23] = tileImageSetup("Images/CardSpider.png");
+		//Movable cards
+		treasureCards[12] = cardImageSetup("Images/CardBat.png");
+		treasureCards[13] = cardImageSetup("Images/CardDragon.png");
+		treasureCards[14] = cardImageSetup("Images/CardGhostBottle.png");
+		treasureCards[15] = cardImageSetup("Images/CardGhostWaving.png");
+		treasureCards[16] = cardImageSetup("Images/CardLadyPig.png");
+		treasureCards[17] = cardImageSetup("Images/CardLizard.png");
+		treasureCards[18] = cardImageSetup("Images/CardMoth.png");
+		treasureCards[19] = cardImageSetup("Images/CardOwl.png");
+		treasureCards[20] = cardImageSetup("Images/CardRat.png");
+		treasureCards[21] = cardImageSetup("Images/CardScarab.png");
+		treasureCards[22] = cardImageSetup("Images/CardSorceress.png");
+		treasureCards[23] = cardImageSetup("Images/CardSpider.png");
 		
 	}
 	
 	//This method returns a scaled tile image (60x60)
 	private static ImageIcon tileImageSetup(String imagePath) {
 		return new ImageIcon(new ImageIcon(imagePath).
-				getImage().getScaledInstance(60,60, Image.SCALE_SMOOTH));
+				getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
+	}
+	
+	//This method returns a scaled tile image (60x60)
+	private static ImageIcon cardImageSetup(String imagePath) {
+		return new ImageIcon(new ImageIcon(imagePath).
+				getImage().getScaledInstance(80, 100, Image.SCALE_SMOOTH));
 	}
 	
 	//This method returns a scaled player image (30x30)
 	private static ImageIcon playerImageSetup(String imagePath) {
 		return new ImageIcon(new ImageIcon(imagePath).
-				getImage().getScaledInstance(60,60, Image.SCALE_SMOOTH));
+				getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH));
 	}
 	
 	

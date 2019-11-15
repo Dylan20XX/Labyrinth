@@ -9,6 +9,9 @@ public class Player extends JLabel {
 	private Random r = new Random();
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
+	private int row;
+	private int col;
+	
 	public Player(ImageIcon image) {
 		setIcon(image);
 		drawHand();
@@ -22,6 +25,22 @@ public class Player extends JLabel {
 		this.hand = hand;
 	}
 	
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
 	//This method places 5 cards in the player's hand
 	private void drawHand() {
 		for(int i = 0; i < 5; i++) {

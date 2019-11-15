@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
@@ -8,6 +9,7 @@ public class Board {
 	private int x; //col
 	private int y; //row
 	
+	ArrayList<Integer> adj[] = new ArrayList[50]; //Adjacency matrix
 	
 	//Add an array of JLabels to highlight path
 	
@@ -21,6 +23,11 @@ public class Board {
 	public Board(Tile[][] board) {
 		super();
 		this.board = board;
+		
+		//Initialize array lists in the adjacency matrix
+		for(int i = 1; i <= adj.length; i++) {
+            adj[i] = new ArrayList<Integer>();
+        }
 	}
 
 	public Board() {
@@ -83,6 +90,7 @@ public class Board {
 		
 	}
 	
+	//* move player if player is on the column or row that is pushed
 	public void pushColDown(int col) {
 		for(int row = 8; row > 0; row--) {
 			board[row][col] = board[row - 1][col];
@@ -121,8 +129,32 @@ public class Board {
 
 	}
 	
-	//This method will be used to find
-	public void pathfind() {
+	//This method will be used to find pieces connected to the piece that the player is on
+	public void pathfind(int row, int col) {
+		
+		int nodeNum = (row - 1) * 7 + col;
+		
+	}
+	
+	public void buildAdjacencyMatrix() {
+		
+		for(int i = 1; i <= adj.length; i++) {
+            adj[i].clear();
+        }
+		
+		for(int row = 1; row < 8; row++) {
+			for(int col = 1; col < 8; col++) {
+				
+				//Check if piece to the right is connected
+				if(board[row][col].getOpenings()[1] && board[row][col + 1] != null && board[row][col + 1].getOpenings()[3])
+					adj[board[row][col].getNodeNum()].add(board[row][col + 1].getNodeNum());
+				
+				//Check if piece below is connected
+				if(board[row][col].getOpenings()[2] && board[row + 1][col] != null && board[row + 1][col].getOpenings()[0])
+					adj[board[row][col].getNodeNum()].add(board[row + 1][col].getNodeNum());
+				
+			}
+		}
 		
 	}
 	
