@@ -27,8 +27,8 @@ public class Player extends JLabel {
 		for(int i = 0; i < 5; i++) {
 			
 			int cardIndex = 0;
-			if(Tile.tileDeck.size() > 1) {
-				cardIndex = r.nextInt(Tile.tileDeck.size());
+			if(Card.deck.size() > 1) {
+				cardIndex = r.nextInt(Card.deck.size());
 			}
 			
 			hand.add(Card.deck.remove(cardIndex));

@@ -18,10 +18,10 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	
 	private JPanel cardPanel = new JPanel();
 	
-	private JLabel player1Label = new JLabel(Assets.tileBat[0]);
-	private JLabel player2Label = new JLabel(Assets.p2);
-	private JLabel player3Label = new JLabel(Assets.p3);
-	private JLabel player4Label = new JLabel(Assets.p4);
+	private Player player1 = new Player(Assets.tileBat[0]);
+	private JLabel player2 = new JLabel(Assets.p2);
+	private JLabel player3 = new JLabel(Assets.p3);
+	private JLabel player4 = new JLabel(Assets.p4);
 	
 	private JButton rotateButton = new JButton("Rotate");
 	private JButton confirmButton = new JButton("Confirm");
@@ -63,6 +63,11 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		cardPanel.setBounds(650, 90, Tile.TILE_SIZE * 9, 400);
 		cardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
+	}
+	
+	//This method displays the cards on card panel
+	private void displayCards() {
+		
 	}
 	
 	//This method sets up the panel that contains the board
