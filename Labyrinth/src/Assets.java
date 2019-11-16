@@ -28,25 +28,8 @@ public class Assets {
 	public static ImageIcon p4 = tileImageSetup("Images/redTile.png");
 	//TEMP====================
 	
-	//Corner tiles
-	public static ImageIcon p1Corner;
-	public static ImageIcon p2Corner;
-	public static ImageIcon p3Corner;
-	public static ImageIcon p4Corner;
-	
-	//Unmovable treasure tiles
-	public static ImageIcon treasureTile1;
-	public static ImageIcon treasureTile2;
-	public static ImageIcon treasureTile3;
-	public static ImageIcon treasureTile4;
-	public static ImageIcon treasureTile5;
-	public static ImageIcon treasureTile6;
-	public static ImageIcon treasureTile7;
-	public static ImageIcon treasureTile8;
-	public static ImageIcon treasureTile9;
-	public static ImageIcon treasureTile10;
-	public static ImageIcon treasureTile11;
-	public static ImageIcon treasureTile12;
+	public static ImageIcon tileHighlight = tileImageSetup("Images/YellowHighlight.png");
+	public static ImageIcon cardOutline = cardImageSetup("Images/CardOutline.png");
 
 	//Movable treasure tiles
 	public static ImageIcon tileL[] = new ImageIcon [4];

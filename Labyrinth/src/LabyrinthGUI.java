@@ -29,6 +29,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	private JLabel player3CardHeading = new JLabel("P3");
 	private JLabel player4CardHeading = new JLabel("P4");
 	
+	private JLabel[] cardOutlines = new JLabel[4];
+	private JLabel player1CardOutline = new JLabel(Assets.cardOutline);
+	private JLabel player2CardOutline = new JLabel(Assets.cardOutline);
+	private JLabel player3CardOutline = new JLabel(Assets.cardOutline);
+	private JLabel player4CardOutline = new JLabel(Assets.cardOutline);
+	
 	private JButton rotateButton = new JButton("Rotate");
 	private JButton confirmButton = new JButton("Confirm");
 	
@@ -92,7 +98,11 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	//This method displays the cards on card panel
 	private void displayCards() {
 		
-		//Cards can have height of 100
+		for(int i = 0; i < 4; i++) {
+			cardOutlines[i] = new JLabel(Assets.cardOutline);
+			cardOutlines[i].setBounds(100, i * 100, 80, 100);
+			cardPanel.add(cardOutlines[i]);
+		}
 		
 		for(int i = 0; i < player1.getHand().size(); i++) {
 			player1.getHand().get(i).setBounds(100 + (i * 80), 0, 80, 100);
