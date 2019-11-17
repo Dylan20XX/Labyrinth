@@ -28,7 +28,10 @@ public class Assets {
 	public static ImageIcon p4 = tileImageSetup("Images/redTile.png");
 	//TEMP====================
 	
-	public static ImageIcon tileHighlight = tileImageSetup("Images/YellowHighlight.png");
+	public static ImageIcon tileHighlightYellow = tileImageSetup("Images/YellowHighlight.png");
+	public static ImageIcon tileHighlightBlue = tileImageSetup("Images/BlueHighlight.png");
+	public static ImageIcon tileHighlightRed = tileImageSetup("Images/RedHighlight.png");
+	public static ImageIcon tileHighlightGreen = tileImageSetup("Images/GreenHighlight.png");
 	public static ImageIcon cardOutline = cardImageSetup("Images/CardOutline.png");
 
 	//Movable treasure tiles

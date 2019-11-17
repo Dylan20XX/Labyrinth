@@ -12,7 +12,9 @@ public class Player extends JLabel {
 	private int row;
 	private int col;
 	
-	public Player(ImageIcon image) {
+	public Player(ImageIcon image, int row, int col) {
+		this.row = row;
+		this.col = col;
 		setIcon(image);
 		drawHand();
 	}
