@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -13,6 +15,7 @@ public class Board {
 	
     private boolean vis[] = new boolean[50];
     private Queue<Integer> Q = new LinkedList<Integer>();
+    private HashMap<Integer, Integer> parentNodes = new HashMap<Integer, Integer>();
 	
 	private ArrayList<Integer> adj[] = new ArrayList[50]; //Adjacency matrix
 	
@@ -61,6 +64,14 @@ public class Board {
 
 	public void setVis(boolean[] vis) {
 		this.vis = vis;
+	}
+
+	public HashMap<Integer, Integer> getParentNodes() {
+		return parentNodes;
+	}
+
+	public void setParentNodes(HashMap<Integer, Integer> parentNodes) {
+		this.parentNodes = parentNodes;
 	}
 
 	//This method randomly fills the board with tiles
@@ -210,6 +221,9 @@ public class Board {
 		//row = nodeNum / 7 + 1
 		//col = nodeNum % 7
 		
+		//Reset the parent nodes map
+		parentNodes.clear();
+		
 		//Reset the queue and visited array
 		Q.clear();
 		for(int i = 0; i < 50; i++)
@@ -223,6 +237,7 @@ public class Board {
             int cur = Q.poll();
             for(int v : adj[cur]) {
             	if(!vis[v]) {
+            		parentNodes.put(v, cur); //parentNodes.put(unvisitedNode, currentNode)
             		Q.add(v);
             		vis[v] = true;
             	}	
@@ -310,6 +325,46 @@ public class Board {
 				highlight[row][col].setIcon(null);
 			}
 		}
+		
+	}
+	
+	//This method returns an array list of the nodes that you must travel through to reach an end node
+	public ArrayList<Position> findShortestPath(int startRow, int startCol, int endRow, int endCol) {
+		
+		ArrayList<Position> shortestPath = new ArrayList<Position>();
+		
+		int startNode = (startRow - 1) * 7 + startCol;
+		int endNode = (endRow - 1) * 7 + endCol;
+		
+		int currentNode = endNode;
+		
+		while(currentNode != startNode) {
+			
+			//Convert node number to row and column
+    		int row = currentNode / 7 + 1;
+    		int col = currentNode % 7;
+    		
+    		//Error check since col number will be set to 0 if col is divisible by 7
+    		//Row number will also be 1 higher than it should be
+    		if(col == 0) {
+    			col = 7;
+    			row -= 1;
+    		}
+    		
+    		//Error check since row number will be set to 8 on node 49
+    		if(row == 8) {
+    			row = 7;
+    		}
+			
+			shortestPath.add(new Position(row, col));
+			currentNode = parentNodes.get(currentNode);
+			
+		}
+		
+		//Reverse the array list because nodes are entered in reverse order
+		Collections.reverse(shortestPath);
+		
+		return shortestPath;
 		
 	}
 	

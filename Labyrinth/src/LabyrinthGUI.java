@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -12,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 public class LabyrinthGUI extends JFrame implements ActionListener{
 	
@@ -23,10 +25,6 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	private JPanel cardPanel = new JPanel();
 	
 	private Player[] players = new Player[4];
-//	private Player player1 = new Player(Assets.tileBat[0]);
-//	private Player player2 = new Player(Assets.p2);
-//	private Player player3 = new Player(Assets.p3);
-//	private Player player4 = new Player(Assets.p4);
 	
 	private JLabel player1CardHeading = new JLabel("P1");
 	private JLabel player2CardHeading = new JLabel("P2");
@@ -54,6 +52,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	//    8 7 6
 	private JButton rotateButton = new JButton("Rotate");
 	private JButton confirmButton = new JButton("Confirm");
+	
+	private ArrayList<Position> shortestPath;
+	private Timer moveTimer = new Timer(10, this);
+	private int moveTime = 0;
+	private int nextMove;
+	private boolean moving = false;
 	
 	private int selectedRow = 0;
 	private int selectedCol = 0;
@@ -310,31 +314,29 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		
 	}
 	
-	//This method moves the player and checks if they have collected a treasure
+	//This method determines the next movement that the player makes and starts the movement timer
 	private void movePlayer() {
-		//Add animation to player later
-		players[turn].setLocation(board.getBoard()[selectedRow][selectedCol].getX() + 
-				15, board.getBoard()[selectedRow][selectedCol].getY() + 15);
-		players[turn].setRow(selectedRow);
-		players[turn].setCol(selectedCol);
 		
-		System.out.println("treasure needed = " + players[turn].getHand().get(0).getTreasure());
-		System.out.println("treasure found = " + board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure());
+		System.out.println("Row = " + shortestPath.get(0).getRow() + " Col = " + shortestPath.get(0).getCol());
 		
-		//Remove cards if treasure is collected
-		if(players[turn].getHand().get(0).getTreasure().equalsIgnoreCase(
-				board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure())) {
-			
-			cardPanel.remove(players[turn].getHand().remove(0));
-			repaint();
-			validate();
-			
-			displayCards();
-			
-			if(players[turn].getHand().isEmpty())
-				playerVictory(turn + 1);
-			
+		//Set the next move variable
+		if(shortestPath.get(0).getRow() == players[turn].getRow() - 1) { //Up
+			nextMove = 0;
+		} else if(shortestPath.get(0).getCol() == players[turn].getCol() + 1) { //Right
+			nextMove = 1;
+		} else if(shortestPath.get(0).getRow() == players[turn].getRow() + 1) { //Left
+			nextMove = 2;
+		} else if(shortestPath.get(0).getCol() == players[turn].getCol() - 1) { //Down
+			nextMove = 3;
 		}
+		
+		players[turn].setRow(shortestPath.get(0).getRow());
+		players[turn].setCol(shortestPath.get(0).getCol());
+
+		shortestPath.remove(0);
+
+		moveTimer.start();
+		
 	}
 	
 	//This method is to be used to update the player's location on the board
@@ -351,294 +353,354 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+		if(e.getSource() == moveTimer) {
+			
+			if(nextMove == 0) { //Up
+				players[turn].setLocation(players[turn].getX(), players[turn].getY() - 1);
+			} else if(nextMove == 1) { //Right
+				players[turn].setLocation(players[turn].getX() + 1, players[turn].getY());
+			} else if(nextMove == 2) { //Down
+				players[turn].setLocation(players[turn].getX(), players[turn].getY() + 1);
+			} else if(nextMove == 3) { //Left
+				players[turn].setLocation(players[turn].getX() - 1, players[turn].getY());
+			}
+			
+			moveTime++;
+			
+			if(moveTime >= 60) {
+				moving = false;
+				moveTime = 0;
+				
+				//If there are still more moves to be made, call the player method
+				if(!shortestPath.isEmpty()) {
+					movePlayer();
+				} else { //When animation is finished, check if a treasure is collected and move onto the next phase
+					
+					moveTimer.stop(); //Stop the timer
+
+					players[turn].setRow(selectedRow);
+					players[turn].setCol(selectedCol);
+
+					System.out.println("treasure needed = " + players[turn].getHand().get(0).getTreasure());
+					System.out.println("treasure found = " + board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure());
+
+					//Remove cards if treasure is collected
+					if(players[turn].getHand().get(0).getTreasure().equalsIgnoreCase(
+							board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure())) {
+
+						cardPanel.remove(players[turn].getHand().remove(0));
+						repaint();
+						validate();
+
+						displayCards();
+
+						if(players[turn].getHand().isEmpty())
+							playerVictory(turn + 1);
+
+					}
+
+					//Reset selectedRow and columnVariables;
+					selectedRow = 0;
+					selectedCol = 0;
+					
+					//Start the next phase and highlight the unusable push button
+					nextPhase();
+					pushButton[lastPush].setIcon(Assets.tileHighlightRed);
+				}
+			}
+		}
 		
-		if(phase == 1) {
-			for(int row = 1; row < 8; row++) {
-				for(int col = 1; col < 8; col++) {
-					if(e.getSource() == board.getBoard()[row][col]) {
-//						TEST PLAYER MOVEMENT
-//						player1Label.setLocation(board.getBoard()[row][col].getX() + 
-//								15, board.getBoard()[row][col].getY() + 15);
-//						board.getBoard()[row][col].setIcon(Assets.whiteTile); 
+		if(!moving) { //Other buttons can't be pressed while player is moving
+			
+			if(phase == 1) {
+				for(int row = 1; row < 8; row++) {
+					for(int col = 1; col < 8; col++) {
+						if(e.getSource() == board.getBoard()[row][col]) {
+//							TEST PLAYER MOVEMENT
+//							player1Label.setLocation(board.getBoard()[row][col].getX() + 
+//									15, board.getBoard()[row][col].getY() + 15);
+//							board.getBoard()[row][col].setIcon(Assets.whiteTile); 
 
-//						TEST ROTATION AND PATHFINDING
-//						if(board.getBoard()[row][col].getRotation() != 3)
-//							board.getBoard()[row][col].setRotation(board.getBoard()[row][col].getRotation()+1);
-//						else
-//							board.getBoard()[row][col].setRotation(0);
+//							TEST ROTATION AND PATHFINDING
+//							if(board.getBoard()[row][col].getRotation() != 3)
+//								board.getBoard()[row][col].setRotation(board.getBoard()[row][col].getRotation()+1);
+//							else
+//								board.getBoard()[row][col].setRotation(0);
 
-//						if((row == 1 || row == 3 || row == 5 || row == 7) && (col == 1 || col == 3 || col == 5 || col == 7)) {
-//							board.getBoard()[1][1] = new Tile("L", Assets.permenantTiles[0], 1);
-//							board.getBoard()[1][3] = new Tile("T", Assets.permenantTiles[1], 0);
-//							board.getBoard()[1][5] = new Tile("T", Assets.permenantTiles[2], 0);
-//							board.getBoard()[1][7] = new Tile("L", Assets.permenantTiles[3], 2);
-//
-//							board.getBoard()[3][1] = new Tile("T", Assets.permenantTiles[4], 3);
-//							board.getBoard()[3][3] = new Tile("T", Assets.permenantTiles[5], 3);
-//							board.getBoard()[3][5] = new Tile("T", Assets.permenantTiles[6], 0);
-//							board.getBoard()[3][7] = new Tile("T", Assets.permenantTiles[7], 1);
-//
-//							board.getBoard()[5][1] = new Tile("T", Assets.permenantTiles[8], 3);
-//							board.getBoard()[5][3] = new Tile("T", Assets.permenantTiles[9], 2);
-//							board.getBoard()[5][5] = new Tile("T", Assets.permenantTiles[10], 1);
-//							board.getBoard()[5][7] = new Tile("T", Assets.permenantTiles[11], 1);
-//
-//							board.getBoard()[7][1] = new Tile("L", Assets.permenantTiles[12], 0);
-//							board.getBoard()[7][3] = new Tile("T", Assets.permenantTiles[13], 2);
-//							board.getBoard()[7][5] = new Tile("T", Assets.permenantTiles[14], 2);
-//							board.getBoard()[7][7] = new Tile("L", Assets.permenantTiles[15], 3);
-//							for(int y = 1; y < 8; y++) {
-//								for(int x = 1; x < 8; x++) {
-//									board.getBoard()[y][x].setNodeNum((y - 1) * 7 + x);
+//							if((row == 1 || row == 3 || row == 5 || row == 7) && (col == 1 || col == 3 || col == 5 || col == 7)) {
+//								board.getBoard()[1][1] = new Tile("L", Assets.permenantTiles[0], 1);
+//								board.getBoard()[1][3] = new Tile("T", Assets.permenantTiles[1], 0);
+//								board.getBoard()[1][5] = new Tile("T", Assets.permenantTiles[2], 0);
+//								board.getBoard()[1][7] = new Tile("L", Assets.permenantTiles[3], 2);
+	//
+//								board.getBoard()[3][1] = new Tile("T", Assets.permenantTiles[4], 3);
+//								board.getBoard()[3][3] = new Tile("T", Assets.permenantTiles[5], 3);
+//								board.getBoard()[3][5] = new Tile("T", Assets.permenantTiles[6], 0);
+//								board.getBoard()[3][7] = new Tile("T", Assets.permenantTiles[7], 1);
+	//
+//								board.getBoard()[5][1] = new Tile("T", Assets.permenantTiles[8], 3);
+//								board.getBoard()[5][3] = new Tile("T", Assets.permenantTiles[9], 2);
+//								board.getBoard()[5][5] = new Tile("T", Assets.permenantTiles[10], 1);
+//								board.getBoard()[5][7] = new Tile("T", Assets.permenantTiles[11], 1);
+	//
+//								board.getBoard()[7][1] = new Tile("L", Assets.permenantTiles[12], 0);
+//								board.getBoard()[7][3] = new Tile("T", Assets.permenantTiles[13], 2);
+//								board.getBoard()[7][5] = new Tile("T", Assets.permenantTiles[14], 2);
+//								board.getBoard()[7][7] = new Tile("L", Assets.permenantTiles[15], 3);
+//								for(int y = 1; y < 8; y++) {
+//									for(int x = 1; x < 8; x++) {
+//										board.getBoard()[y][x].setNodeNum((y - 1) * 7 + x);
+//									}
 //								}
 //							}
-//						}
-//
-//						board.pathfind(1, 1);
-						
-						//Highlight available paths
-						board.highlightTiles();
+	//
+//							board.pathfind(1, 1);
+							
+							//Highlight available paths
+							board.highlightTiles();
 
-						if(board.getVis()[board.getBoard()[row][col].getNodeNum()]) {
-							board.getHighlight()[row][col].setIcon(Assets.tileHighlightGreen);
-							selectedRow = row;
-							selectedCol = col;
+							if(board.getVis()[board.getBoard()[row][col].getNodeNum()]) {
+								board.getHighlight()[row][col].setIcon(Assets.tileHighlightGreen);
+								selectedRow = row;
+								selectedCol = col;
+							} else {
+								board.getHighlight()[row][col].setIcon(Assets.tileHighlightRed);
+								selectedRow = 0;
+								selectedCol = 0;
+							}
+							
+						}
+					}
+				}
+			}
+			
+			
+			//TEST ROW AND COL PUSH METHODS
+//			for(int i = 0; i < 3; i++) {
+//				if(e.getSource() == pushButton[i]) {
+//					board.pushColDown((i + 1) * 2);
+//				}
+//			}
+//			
+//			for(int i = 3; i < 6; i++) {
+//				if(e.getSource() == pushButton[i]) {
+//					board.pushRowLeft((i - 2) * 2);
+//				}
+//			}
+//			
+//			for(int i = 6; i < 9; i++) {
+//				if(e.getSource() == pushButton[i]) {
+//					board.pushColUp((9 - i) * 2);
+//				}
+//			}
+//			
+//			for(int i = 9; i < 12; i++) {
+//				if(e.getSource() == pushButton[i]) {
+//					board.pushRowRight((12 - i) * 2);
+//				}
+//			}
+			
+			for(int i = 0; i < 12; i++) {
+				if(e.getSource() == pushButton[i] && phase == 0) {
+					selectedPush = i;
+					for(int j = 0; j < 12; j++) {
+						//Change the button image and revert all other button images to normal
+						if(j == i) {
+							pushButton[j].setIcon(Assets.tileHighlightBlue);
 						} else {
-							board.getHighlight()[row][col].setIcon(Assets.tileHighlightRed);
-							selectedRow = 0;
-							selectedCol = 0;
+							pushButton[j].setIcon(null);
 						}
 						
+						//Change colour of the button opposite to the last row or column pushed
+						if(j == lastPush)
+							pushButton[j].setIcon(Assets.tileHighlightRed); 
 					}
 				}
 			}
-		}
-		
-		
-		//TEST ROW AND COL PUSH METHODS
-//		for(int i = 0; i < 3; i++) {
-//			if(e.getSource() == pushButton[i]) {
-//				board.pushColDown((i + 1) * 2);
-//			}
-//		}
-//		
-//		for(int i = 3; i < 6; i++) {
-//			if(e.getSource() == pushButton[i]) {
-//				board.pushRowLeft((i - 2) * 2);
-//			}
-//		}
-//		
-//		for(int i = 6; i < 9; i++) {
-//			if(e.getSource() == pushButton[i]) {
-//				board.pushColUp((9 - i) * 2);
-//			}
-//		}
-//		
-//		for(int i = 9; i < 12; i++) {
-//			if(e.getSource() == pushButton[i]) {
-//				board.pushRowRight((12 - i) * 2);
-//			}
-//		}
-		
-		for(int i = 0; i < 12; i++) {
-			if(e.getSource() == pushButton[i] && phase == 0) {
-				selectedPush = i;
-				for(int j = 0; j < 12; j++) {
-					//Change the button image and revert all other button images to normal
-					if(j == i) {
-						pushButton[j].setIcon(Assets.tileHighlightBlue);
-					} else {
-						pushButton[j].setIcon(null);
-					}
-					
-					//Change colour of the button opposite to the last row or column pushed
-					if(j == lastPush)
-						pushButton[j].setIcon(Assets.tileHighlightRed); 
-				}
-			}
-		}
-		
-		//Allow the player to rotate the tile during the tile placement phase
-		if(e.getSource() == rotateButton && phase == 0) {
 			
-			if(tileInHand.getRotation() != 3)
-				tileInHand.setRotation(tileInHand.getRotation()+1);
-			else
-				tileInHand.setRotation(0);
-			
-			tileInHandLabel.setIcon(new ImageIcon(((ImageIcon) tileInHand.getIcon()).
-					getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
-			
-		}
-		
-		if(e.getSource() == confirmButton) {
-			
-			if(selectedPush >= 0 && selectedPush != lastPush && phase == 0) {
+			//Allow the player to rotate the tile during the tile placement phase
+			if(e.getSource() == rotateButton && phase == 0) {
 				
-				//Detect which push button was pressed
-				for(int i = 0; i < 3; i++) {
-					if(selectedPush == i) {
-						
-						int col = (i + 1) * 2;
-						
-						board.getBoard()[0][col] = tileInHand;
-						board.pushColDown(col);
-						
-						tileInHand.setType(board.getBoard()[8][col].getType());
-						tileInHand.setHasTreasure(board.getBoard()[8][col].isHasTreasure());
-						tileInHand.setTreasure(board.getBoard()[8][col].getTreasure());
-						tileInHand.setImages(board.getBoard()[8][col].getImages());
-						tileInHand.setRotation(board.getBoard()[8][col].getRotation());
-						
-						board.getBoard()[8][col] = new Tile();
-						
-						//Move a player if they are on the selected column
-						for(int j = 0; j < 4; j++) {
-							if(players[j].getCol() == col) {
-								players[j].setRow(players[j].getRow() + 1);
-								if(players[j].getRow() == 8)
-									players[j].setRow(1);
-								updatePlayerLocation(j);
-							}
-						}
-						
-					}
-				}
+				if(tileInHand.getRotation() != 3)
+					tileInHand.setRotation(tileInHand.getRotation()+1);
+				else
+					tileInHand.setRotation(0);
 				
-				for(int i = 3; i < 6; i++) {
-					if(selectedPush == i) {
-						
-						int row = (i - 2) * 2;
-						
-						board.getBoard()[row][8] = tileInHand;
-						board.pushRowLeft(row);
-						
-						tileInHand.setType(board.getBoard()[row][0].getType());
-						tileInHand.setHasTreasure(board.getBoard()[row][0].isHasTreasure());
-						tileInHand.setTreasure(board.getBoard()[row][0].getTreasure());
-						tileInHand.setImages(board.getBoard()[row][0].getImages());
-						tileInHand.setRotation(board.getBoard()[row][0].getRotation());
-						
-						board.getBoard()[row][0] = new Tile();
-						
-						//Move a player if they are on the selected row
-						for(int j = 0; j < 4; j++) {
-							if(players[j].getRow() == row) {
-								players[j].setCol(players[j].getCol() - 1);
-								if(players[j].getCol() == 0)
-									players[j].setCol(7);
-								updatePlayerLocation(j);
-							}
-						}
-						
-					}
-				}
-				
-				for(int i = 6; i < 9; i++) {
-					if(selectedPush == i) {
-						
-						int col = (9 - i) * 2;
-						
-						board.getBoard()[8][col] = tileInHand;
-						board.pushColUp(col);
-						
-						tileInHand.setType(board.getBoard()[0][col].getType());
-						tileInHand.setHasTreasure(board.getBoard()[0][col].isHasTreasure());
-						tileInHand.setTreasure(board.getBoard()[0][col].getTreasure());
-						tileInHand.setImages(board.getBoard()[0][col].getImages());
-						tileInHand.setRotation(board.getBoard()[0][col].getRotation());
-						
-						board.getBoard()[0][col] = new Tile();
-						
-						//Move a player if they are on the selected column
-						for(int j = 0; j < 4; j++) {
-							if(players[j].getCol() == col) {
-								players[j].setRow(players[j].getRow() - 1);
-								if(players[j].getRow() == 0)
-									players[j].setRow(7);
-								updatePlayerLocation(j);
-							}
-						}
-						
-					}
-				}
-				
-				for(int i = 9; i < 12; i++) {
-					if(selectedPush == i) {
-						
-						int row = (12 - i) * 2;
-						
-						board.getBoard()[row][0] = tileInHand;
-						board.pushRowRight(row);
-						
-						tileInHand.setType(board.getBoard()[row][8].getType());
-						tileInHand.setHasTreasure(board.getBoard()[row][8].isHasTreasure());
-						tileInHand.setTreasure(board.getBoard()[row][8].getTreasure());
-						tileInHand.setImages(board.getBoard()[row][8].getImages());
-						tileInHand.setRotation(board.getBoard()[row][8].getRotation());
-						
-						board.getBoard()[row][8] = new Tile();
-						
-						//Move a player if they are on the selected row
-						for(int j = 0; j < 4; j++) {
-							if(players[j].getRow() == row) {
-								players[j].setCol(players[j].getCol() + 1);
-								if(players[j].getCol() == 8)
-									players[j].setCol(1);
-								updatePlayerLocation(j);
-							}
-						}
-						
-					}
-				}
-				
-				//Update the label with the tile in hand image
 				tileInHandLabel.setIcon(new ImageIcon(((ImageIcon) tileInHand.getIcon()).
 						getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
 				
-				//return the push buttons to normal
-				for(int j = 0; j < 12; j++) {
-					//Change the button image and revert all other button images to normal
-					pushButton[j].setIcon(null);
-				}
+			}
+			
+			if(e.getSource() == confirmButton) {
 				
-				//Set last push variable and and reset selected push variable
-				if(selectedPush == 0) {
-					lastPush = 8;
-				} else if(selectedPush == 1) {
-					lastPush = 7;
-				} else if(selectedPush == 2) {
-					lastPush = 6;
-				} else if(selectedPush == 3) {
-					lastPush = 11;
-				} else if(selectedPush == 4) {
-					lastPush = 10;
-				} else if(selectedPush == 5) {
-					lastPush = 9;
-				} else if(selectedPush == 6) {
-					lastPush = 2;
-				} else if(selectedPush == 7) {
-					lastPush = 1;
-				} else if(selectedPush == 8) {
-					lastPush = 0;
-				} else if(selectedPush == 9) {
-					lastPush = 5;
-				} else if(selectedPush == 10) {
-					lastPush = 4;
-				} else if(selectedPush == 11) {
-					lastPush = 3;
-				}
-				selectedPush = -1;
-				
-				//Move to player movement phase
-				nextPhase();
-				
-			} else if (phase == 1) {
-				
-				if(selectedRow != 0 && selectedCol != 0 && board.getVis()[board.getBoard()[selectedRow][selectedCol].getNodeNum()]) {
-					movePlayer();
+				if(selectedPush >= 0 && selectedPush != lastPush && phase == 0) {
+					
+					//Detect which push button was pressed
+					for(int i = 0; i < 3; i++) {
+						if(selectedPush == i) {
+							
+							int col = (i + 1) * 2;
+							
+							board.getBoard()[0][col] = tileInHand;
+							board.pushColDown(col);
+							
+							tileInHand.setType(board.getBoard()[8][col].getType());
+							tileInHand.setHasTreasure(board.getBoard()[8][col].isHasTreasure());
+							tileInHand.setTreasure(board.getBoard()[8][col].getTreasure());
+							tileInHand.setImages(board.getBoard()[8][col].getImages());
+							tileInHand.setRotation(board.getBoard()[8][col].getRotation());
+							
+							board.getBoard()[8][col] = new Tile();
+							
+							//Move a player if they are on the selected column
+							for(int j = 0; j < 4; j++) {
+								if(players[j].getCol() == col) {
+									players[j].setRow(players[j].getRow() + 1);
+									if(players[j].getRow() == 8)
+										players[j].setRow(1);
+									updatePlayerLocation(j);
+								}
+							}
+							
+						}
+					}
+					
+					for(int i = 3; i < 6; i++) {
+						if(selectedPush == i) {
+							
+							int row = (i - 2) * 2;
+							
+							board.getBoard()[row][8] = tileInHand;
+							board.pushRowLeft(row);
+							
+							tileInHand.setType(board.getBoard()[row][0].getType());
+							tileInHand.setHasTreasure(board.getBoard()[row][0].isHasTreasure());
+							tileInHand.setTreasure(board.getBoard()[row][0].getTreasure());
+							tileInHand.setImages(board.getBoard()[row][0].getImages());
+							tileInHand.setRotation(board.getBoard()[row][0].getRotation());
+							
+							board.getBoard()[row][0] = new Tile();
+							
+							//Move a player if they are on the selected row
+							for(int j = 0; j < 4; j++) {
+								if(players[j].getRow() == row) {
+									players[j].setCol(players[j].getCol() - 1);
+									if(players[j].getCol() == 0)
+										players[j].setCol(7);
+									updatePlayerLocation(j);
+								}
+							}
+							
+						}
+					}
+					
+					for(int i = 6; i < 9; i++) {
+						if(selectedPush == i) {
+							
+							int col = (9 - i) * 2;
+							
+							board.getBoard()[8][col] = tileInHand;
+							board.pushColUp(col);
+							
+							tileInHand.setType(board.getBoard()[0][col].getType());
+							tileInHand.setHasTreasure(board.getBoard()[0][col].isHasTreasure());
+							tileInHand.setTreasure(board.getBoard()[0][col].getTreasure());
+							tileInHand.setImages(board.getBoard()[0][col].getImages());
+							tileInHand.setRotation(board.getBoard()[0][col].getRotation());
+							
+							board.getBoard()[0][col] = new Tile();
+							
+							//Move a player if they are on the selected column
+							for(int j = 0; j < 4; j++) {
+								if(players[j].getCol() == col) {
+									players[j].setRow(players[j].getRow() - 1);
+									if(players[j].getRow() == 0)
+										players[j].setRow(7);
+									updatePlayerLocation(j);
+								}
+							}
+							
+						}
+					}
+					
+					for(int i = 9; i < 12; i++) {
+						if(selectedPush == i) {
+							
+							int row = (12 - i) * 2;
+							
+							board.getBoard()[row][0] = tileInHand;
+							board.pushRowRight(row);
+							
+							tileInHand.setType(board.getBoard()[row][8].getType());
+							tileInHand.setHasTreasure(board.getBoard()[row][8].isHasTreasure());
+							tileInHand.setTreasure(board.getBoard()[row][8].getTreasure());
+							tileInHand.setImages(board.getBoard()[row][8].getImages());
+							tileInHand.setRotation(board.getBoard()[row][8].getRotation());
+							
+							board.getBoard()[row][8] = new Tile();
+							
+							//Move a player if they are on the selected row
+							for(int j = 0; j < 4; j++) {
+								if(players[j].getRow() == row) {
+									players[j].setCol(players[j].getCol() + 1);
+									if(players[j].getCol() == 8)
+										players[j].setCol(1);
+									updatePlayerLocation(j);
+								}
+							}
+							
+						}
+					}
+					
+					//Update the label with the tile in hand image
+					tileInHandLabel.setIcon(new ImageIcon(((ImageIcon) tileInHand.getIcon()).
+							getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+					
+					//return the push buttons to normal
+					for(int j = 0; j < 12; j++) {
+						//Change the button image and revert all other button images to normal
+						pushButton[j].setIcon(null);
+					}
+					
+					//Set last push variable and and reset selected push variable
+					if(selectedPush == 0) {
+						lastPush = 8;
+					} else if(selectedPush == 1) {
+						lastPush = 7;
+					} else if(selectedPush == 2) {
+						lastPush = 6;
+					} else if(selectedPush == 3) {
+						lastPush = 11;
+					} else if(selectedPush == 4) {
+						lastPush = 10;
+					} else if(selectedPush == 5) {
+						lastPush = 9;
+					} else if(selectedPush == 6) {
+						lastPush = 2;
+					} else if(selectedPush == 7) {
+						lastPush = 1;
+					} else if(selectedPush == 8) {
+						lastPush = 0;
+					} else if(selectedPush == 9) {
+						lastPush = 5;
+					} else if(selectedPush == 10) {
+						lastPush = 4;
+					} else if(selectedPush == 11) {
+						lastPush = 3;
+					}
+					selectedPush = -1;
+					
+					//Move to player movement phase
 					nextPhase();
-					pushButton[lastPush].setIcon(Assets.tileHighlightRed);
+					
+				} else if (phase == 1) {
+					
+					if(selectedRow != 0 && selectedCol != 0 && board.getVis()[board.getBoard()[selectedRow][selectedCol].getNodeNum()]) {
+						shortestPath = board.findShortestPath(players[turn].getRow(), players[turn].getCol(), selectedRow, selectedCol);
+						moving = true;
+						movePlayer();
+					}
+					
 				}
 				
 			}
