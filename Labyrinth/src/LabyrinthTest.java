@@ -7,7 +7,8 @@ public class LabyrinthTest {
 	public static void main(String[] args) {
 		Assets.imageInitializer();
 		Tile.setupTileDeck();
-		new LabyrinthGUI();
+		new LabyrinthTitleScreen();
+		//new LabyrinthGUI();
 	}
 	
 }

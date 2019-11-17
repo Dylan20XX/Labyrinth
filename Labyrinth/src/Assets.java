@@ -21,12 +21,15 @@ public class Assets {
 	public static ImageIcon yellowTile = tileImageSetup("Images/yellowTile.png");
 	public static ImageIcon greenTile = tileImageSetup("Images/greenTile.png");
 	public static ImageIcon whiteTile = tileImageSetup("Images/whiteTile.png");
-	
-	public static ImageIcon p1 = tileImageSetup("Images/translucentGreen.png");
-	public static ImageIcon p2= tileImageSetup("Images/redTile.png");
-	public static ImageIcon p3 = tileImageSetup("Images/redTile.png");
-	public static ImageIcon p4 = tileImageSetup("Images/redTile.png");
 	//TEMP====================
+	
+	public static ImageIcon p1 = tileImageSetup("Images/p1.png");
+	public static ImageIcon p2 = tileImageSetup("Images/p2.png");
+	public static ImageIcon p3 = tileImageSetup("Images/p3.png");
+	public static ImageIcon p4 = tileImageSetup("Images/p4.png");
+	
+	public static ImageIcon titleScreen = new ImageIcon(new ImageIcon("Images/labyrinthTitleScreen.jpg").
+			getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH));
 	
 	public static ImageIcon tileHighlightYellow = tileImageSetup("Images/YellowHighlight.png");
 	public static ImageIcon tileHighlightBlue = tileImageSetup("Images/BlueHighlight.png");
