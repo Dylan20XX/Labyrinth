@@ -215,18 +215,22 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		
 		player1CardHeading.setBounds(20, 35, 50, 30);
 		player1CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		player1CardHeading.setForeground(Color.red);
 		cardPanel.add(player1CardHeading);
 		
 		player2CardHeading.setBounds(20, 135, 50, 30);
 		player2CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		player2CardHeading.setForeground(Color.yellow);
 		cardPanel.add(player2CardHeading);
 		
 		player3CardHeading.setBounds(20, 235, 50, 30);
 		player3CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		player3CardHeading.setForeground(Color.green);
 		cardPanel.add(player3CardHeading);
 		
 		player4CardHeading.setBounds(20, 335, 50, 30);
 		player4CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
+		player4CardHeading.setForeground(Color.blue);
 		cardPanel.add(player4CardHeading);
 		
 		players[0] = new Player(Assets.p1, 1, 1);
