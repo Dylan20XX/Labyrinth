@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 public class Assets {
 	
 	//4 L corner tiles
-	//12 T unmovable treasure tiles
+	//12 T non-movable treasure tiles
 	//6 T movable treasure tiles
 	//6 L movable treasure tiles
 	//10 L tiles
@@ -14,14 +14,6 @@ public class Assets {
 	
 	// If there is tile in the picture name then it means the tile is permenant
 	// 0 = down 1 = left 2 = up 3 = right
-	
-	//TEMP=====================
-	public static ImageIcon blueTile = tileImageSetup("Images/blueTile.png");
-	public static ImageIcon redTile = tileImageSetup("Images/redTile.png");
-	public static ImageIcon yellowTile = tileImageSetup("Images/yellowTile.png");
-	public static ImageIcon greenTile = tileImageSetup("Images/greenTile.png");
-	public static ImageIcon whiteTile = tileImageSetup("Images/whiteTile.png");
-	//TEMP====================
 	
 	public static ImageIcon p1 = tileImageSetup("Images/p1.png");
 	public static ImageIcon p2 = tileImageSetup("Images/p2.png");

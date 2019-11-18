@@ -20,34 +20,35 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
+//This class contains the GUI for the Labyrinth game
 public class LabyrinthGUI extends JFrame implements ActionListener{
 	
+	private JLabel titleLabel = new JLabel("Labyrinth");
+	
+	//60x60 tiles 540x540 board
 	private JLayeredPane boardPanel = new JLayeredPane();
 	private Board board = new Board();
-	private JLabel titleLabel = new JLabel("Labyrinth");
-	//60x60 tiles 540x540 board
 	
+	//Card Panel
 	private JPanel cardPanel = new JPanel();
-	
-	private Player[] players = new Player[4];
-	
 	private JLabel player1CardHeading = new JLabel("P1");
 	private JLabel player2CardHeading = new JLabel("P2");
 	private JLabel player3CardHeading = new JLabel("P3");
 	private JLabel player4CardHeading = new JLabel("P4");
-	
 	private JLabel[] cardOutlines = new JLabel[4];
+	private Player[] players = new Player[4];
 	
 	private Tile tileInHand;
 	private JLabel tileInHandLabel = new JLabel();
 	private int turn; //Determines whose turn it is
-	private int phase; // 0 = time to place tile // 1 = time to move character
+	private int phase; // 0 = time to place tile & 1 = time to move character
 	private int lastPush = -1; //Holds the index of the last push button that was used
 	private int selectedPush = -1; //Holds the index of the last push button that was used
 	
-	private JLabel turnLabel = new JLabel();
+	private JLabel turnLabel = new JLabel(); //Displays whose turn it is
 	private JLabel phaseLabel = new JLabel(); //Displays which phase of the turn the player is on (tile placement or movement)
 	
+	//Buttons
 	private JButton[] pushButton = new JButton[12];
 	// Push button index layout
 	//    0 1 2
@@ -58,9 +59,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	private JButton rotateButton = new JButton("Rotate");
 	private JButton confirmButton = new JButton("Confirm");
 	private JButton saveButton = new JButton("Save Game");
+	
+	//Saving instructions label and text area
 	private JLabel saveInstruction = new JLabel("Enter Save Name");
 	private JTextArea saveName = new JTextArea();
 	
+	//Player animation variables
 	private ArrayList<Position> shortestPath;
 	private Timer moveTimer = new Timer(10, this);
 	private int moveTime = 0;
@@ -73,20 +77,22 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	//Constructor for loading a new game
 	public LabyrinthGUI() {
 		
+		//Setup the frame and panels
 		buttonSetup();
 		cardPanelSetup();
 		boardPanelSetup();
 		placePlayer();
 		frameSetup();
-		//board.pathfind(1, 1);
 		
+		//Start the first turn of the game
 		startTurn(0, 0);
 		
 	}
 	
 	//Constructor for loading a saved game
 	public LabyrinthGUI(String filepath) {
-
+		
+		//Setup the frame and panels
 		buttonSetup();
 		cardPanelSetup();
 		boardPanelSetup();
@@ -95,50 +101,48 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		
 		//Read data from the saved game file
 		try {
-
-			Scanner input = new Scanner(new File(String.format("SavedGames/%s", filepath))); //Take input from the highscore file
+			
+			//Take input from the highscore file
+			Scanner input = new Scanner(new File(String.format("SavedGames/%s", filepath))); 
+			
+			//Read the turn and phase
 			turn = input.nextInt(); 
 			phase = input.nextInt();
 
+			//Copy the board variables
 			for(int row = 1; row < 8; row++) {
 				for(int col = 1; col < 8; col++) {
 					
 					int id = input.nextInt();
 					int rotation = input.nextInt();
 					
-					System.out.println("ROW = " + row + " COL = " + col);
-					System.out.println("id = " + id + " rotation = " + rotation);
-					System.out.println();
-					
-					board.getBoard()[row][col].setType(Tile.tiles[id].getType());
-					board.getBoard()[row][col].setTreasure(Tile.tiles[id].getTreasure());
-					board.getBoard()[row][col].setImages(Tile.tiles[id].getImages());
+					board.getBoard()[row][col].copy(Tile.tiles[id]);
 					board.getBoard()[row][col].setRotation(rotation);
-					board.getBoard()[row][col].setId(Tile.tiles[id].getId());
 					
 				}
 			}
 			
+			//Read the tile in hand
 			int inHandId = input.nextInt();
 			int inHandRotation = input.nextInt();
 			
 			tileInHand = new Tile();
-			tileInHand.setType(Tile.tiles[inHandId].getType());
-			tileInHand.setTreasure(Tile.tiles[inHandId].getTreasure());
-			tileInHand.setImages(Tile.tiles[inHandId].getImages());
+			tileInHand.copy(Tile.tiles[inHandId]);
 			tileInHand.setRotation(inHandRotation);
-			tileInHand.setId(Tile.tiles[inHandId].getId());
 			
+			//Read in the players' cards
 			for(int i = 0; i < 4; i++) {
 				
 				int numCards = input.nextInt();
 				
-				
+				//Remove the cards automatically given to the player when initialized from the card panel
 				for(int j = 0; j < numCards; j++) {
 					cardPanel.remove(players[i].getHand().remove(0));
 				}
 				
+				//Read in the data for each card in the player's hand
 				for(int j = 0; j < numCards; j++) {
+					
 					int id = input.nextInt();
 					
 					Card card = new Card();
@@ -152,6 +156,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				
 			}
 			
+			//Call these methods since components are removed
 			repaint();
 			validate();
 			
@@ -166,6 +171,13 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				players[i].setCol(col);
 				updatePlayerLocation(i);
 			}
+			
+			//Read the last push
+			lastPush = input.nextInt();
+			
+			//Highlight the appropriate last push button
+			if(lastPush != -1 && phase == 0)
+				pushButton[lastPush].setIcon(Assets.tileHighlightRed);
 
 			input.close();//Close the scanner
 
@@ -213,6 +225,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		cardPanel.setBounds(650, 90, Tile.TILE_SIZE * 9, 400);
 		cardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
+		//Setup the headings for each player's cards
 		player1CardHeading.setBounds(20, 35, 50, 30);
 		player1CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
 		player1CardHeading.setForeground(Color.red);
@@ -233,17 +246,20 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		player4CardHeading.setForeground(Color.blue);
 		cardPanel.add(player4CardHeading);
 		
+		//Initialize the player objects so that their hands are drawn
 		players[0] = new Player(Assets.p1, 1, 1);
 		players[1] = new Player(Assets.p2, 1, 7);
 		players[2] = new Player(Assets.p3, 7, 1);
 		players[3] = new Player(Assets.p4, 7, 7);
 		
+		//Setup the card outlines for the cards each player must currently collect
 		for(int i = 0; i < 4; i++) {
 			cardOutlines[i] = new JLabel(Assets.cardOutline);
 			cardOutlines[i].setBounds(100, i * 100, 80, 100);
 			cardPanel.add(cardOutlines[i]);
 		}
 		
+		//Display the cards
 		displayCards();
 
 	}
@@ -267,8 +283,6 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		boardPanel.setLayout(null);
 		boardPanel.setBounds(90, 90, Tile.TILE_SIZE * 9, Tile.TILE_SIZE * 9);
 		boardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		//Setup the layered pane
 		
 		//Load the board
 		loadBoard();
@@ -368,10 +382,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		titleLabel.setBounds(540, 15, 200, 40);
 		add(titleLabel);
 		
+		//Add the save instruction label
 		saveInstruction.setBounds(220, 20, 120, 30);
 		saveInstruction.setFont(new Font("Arial", Font.BOLD, 14));
 		add(saveInstruction);
 		
+		//Add the save name text area
 		saveName.setBounds(220, 50, 120, 30);
 		saveName.setFont(new Font("Arial", Font.BOLD, 18));
 		add(saveName);
@@ -426,26 +442,33 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		
 	}
 	
+	//This method begins movement of a player
+	private void movePlayer(int playerTurn, int selectedRow, int selectedCol) {
+		shortestPath = board.findShortestPath(players[playerTurn].getRow(), players[playerTurn].getCol(), selectedRow, selectedCol);
+		moving = true;
+		move(playerTurn);
+	}
+	
 	//This method determines the next movement that the player makes and starts the movement timer
-	private void movePlayer() {
+	private void move(int playerTurn) {
 		
 		if(!shortestPath.isEmpty()) {
 			
 			System.out.println("Row = " + shortestPath.get(0).getRow() + " Col = " + shortestPath.get(0).getCol());
 			
 			//Set the next move variable
-			if(shortestPath.get(0).getRow() == players[turn].getRow() - 1) { //Up
+			if(shortestPath.get(0).getRow() == players[playerTurn].getRow() - 1) { //Up
 				nextMove = 0;
-			} else if(shortestPath.get(0).getCol() == players[turn].getCol() + 1) { //Right
+			} else if(shortestPath.get(0).getCol() == players[playerTurn].getCol() + 1) { //Right
 				nextMove = 1;
-			} else if(shortestPath.get(0).getRow() == players[turn].getRow() + 1) { //Left
+			} else if(shortestPath.get(0).getRow() == players[playerTurn].getRow() + 1) { //Left
 				nextMove = 2;
-			} else if(shortestPath.get(0).getCol() == players[turn].getCol() - 1) { //Down
+			} else if(shortestPath.get(0).getCol() == players[playerTurn].getCol() - 1) { //Down
 				nextMove = 3;
 			}
 			
-			players[turn].setRow(shortestPath.get(0).getRow());
-			players[turn].setCol(shortestPath.get(0).getCol());
+			players[playerTurn].setRow(shortestPath.get(0).getRow());
+			players[playerTurn].setCol(shortestPath.get(0).getCol());
 
 			shortestPath.remove(0);
 			
@@ -493,7 +516,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				
 				//If there are still more moves to be made, call the player method
 				if(!shortestPath.isEmpty()) {
-					movePlayer();
+					move(turn);
 				} else { //When animation is finished, check if a treasure is collected and move onto the next phase
 					
 					moving = false;
@@ -502,8 +525,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 					players[turn].setRow(selectedRow);
 					players[turn].setCol(selectedCol);
 
-					System.out.println("treasure needed = " + players[turn].getHand().get(0).getTreasure());
-					System.out.println("treasure found = " + board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure());
+//					System.out.println("treasure needed = " + players[turn].getHand().get(0).getTreasure());
+//					System.out.println("treasure found = " + board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure());
 
 					//Remove cards if treasure is collected
 					if(players[turn].getHand().get(0).getTreasure().equalsIgnoreCase(
@@ -526,6 +549,9 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 					
 					//Start the next phase and highlight the unusable push button
 					nextPhase();
+					for(int i = 0; i < 12; i++) {
+						pushButton[i].setIcon(Assets.tileHighlightYellow);
+					}
 					pushButton[lastPush].setIcon(Assets.tileHighlightRed);
 				}
 			}
@@ -556,6 +582,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				}
 			}
 			
+			//Detect which push button was pressed
 			for(int i = 0; i < 12; i++) {
 				if(e.getSource() == pushButton[i] && phase == 0) {
 					selectedPush = i;
@@ -591,20 +618,17 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				
 				if(selectedPush >= 0 && selectedPush != lastPush && phase == 0) {
 					
-					//Detect which push button was pressed
-					for(int i = 0; i < 3; i++) {
+					//Push a column down
+					for(int i = 0; i < 3; i++) { 
+						
 						if(selectedPush == i) {
 							
 							int col = (i + 1) * 2;
 							
-							board.getBoard()[0][col] = tileInHand;
+							board.getBoard()[0][col].copy(tileInHand);
 							board.pushColDown(col);
 							
-							tileInHand.setType(board.getBoard()[8][col].getType());
-							tileInHand.setTreasure(board.getBoard()[8][col].getTreasure());
-							tileInHand.setImages(board.getBoard()[8][col].getImages());
-							tileInHand.setRotation(board.getBoard()[8][col].getRotation());
-							tileInHand.setId(board.getBoard()[8][col].getId());
+							tileInHand.copy(board.getBoard()[8][col]);
 							
 							board.getBoard()[8][col] = new Tile();
 							
@@ -621,19 +645,17 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 						}
 					}
 					
-					for(int i = 3; i < 6; i++) {
+					//Push a row left
+					for(int i = 3; i < 6; i++) { 
+						
 						if(selectedPush == i) {
 							
 							int row = (i - 2) * 2;
-							
-							board.getBoard()[row][8] = tileInHand;
+
+							board.getBoard()[row][8].copy(tileInHand);
 							board.pushRowLeft(row);
 							
-							tileInHand.setType(board.getBoard()[row][0].getType());
-							tileInHand.setTreasure(board.getBoard()[row][0].getTreasure());
-							tileInHand.setImages(board.getBoard()[row][0].getImages());
-							tileInHand.setRotation(board.getBoard()[row][0].getRotation());
-							tileInHand.setId(board.getBoard()[row][0].getId());
+							tileInHand.copy(board.getBoard()[row][0]);
 							
 							board.getBoard()[row][0] = new Tile();
 							
@@ -650,19 +672,17 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 						}
 					}
 					
+					//Push a column up
 					for(int i = 6; i < 9; i++) {
+						
 						if(selectedPush == i) {
 							
 							int col = (9 - i) * 2;
 							
-							board.getBoard()[8][col] = tileInHand;
+							board.getBoard()[8][col].copy(tileInHand);
 							board.pushColUp(col);
 							
-							tileInHand.setType(board.getBoard()[0][col].getType());
-							tileInHand.setTreasure(board.getBoard()[0][col].getTreasure());
-							tileInHand.setImages(board.getBoard()[0][col].getImages());
-							tileInHand.setRotation(board.getBoard()[0][col].getRotation());
-							tileInHand.setId(board.getBoard()[0][col].getId());
+							tileInHand.copy(board.getBoard()[0][col]);
 							
 							board.getBoard()[0][col] = new Tile();
 							
@@ -679,18 +699,17 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 						}
 					}
 					
+					//Push a row right
 					for(int i = 9; i < 12; i++) {
+						
 						if(selectedPush == i) {
 							
 							int row = (12 - i) * 2;
 							
-							board.getBoard()[row][0] = tileInHand;
+							board.getBoard()[row][0].copy(tileInHand);
 							board.pushRowRight(row);
 							
-							tileInHand.setType(board.getBoard()[row][8].getType());
-							tileInHand.setTreasure(board.getBoard()[row][8].getTreasure());
-							tileInHand.setImages(board.getBoard()[row][8].getImages());
-							tileInHand.setId(board.getBoard()[row][8].getId());
+							tileInHand.copy(board.getBoard()[row][8]);
 							
 							board.getBoard()[row][8] = new Tile();
 							
@@ -717,7 +736,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 						pushButton[j].setIcon(null);
 					}
 					
-					//Set last push variable and and reset selected push variable
+					//Set last push variable
 					if(selectedPush == 0) {
 						lastPush = 8;
 					} else if(selectedPush == 1) {
@@ -743,6 +762,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 					} else if(selectedPush == 11) {
 						lastPush = 3;
 					}
+					//Reset selected push variable
 					selectedPush = -1;
 					
 					//Move to player movement phase
@@ -750,22 +770,22 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 					
 				} else if (phase == 1) {
 					
+					//Move the player if a valid move has been selected
 					if(selectedRow != 0 && selectedCol != 0 && board.getVis()[board.getBoard()[selectedRow][selectedCol].getNodeNum()]) {
-						shortestPath = board.findShortestPath(players[turn].getRow(), players[turn].getCol(), selectedRow, selectedCol);
-						moving = true;
-						movePlayer();
+						movePlayer(turn, selectedRow, selectedCol);
 					}
 					
 				}
 				
 			}
 			
-		}
-		
-		if(e.getSource() == saveButton && !saveName.getText().equals("")) {
-			System.out.println("Saving");
-			saveGame(saveName.getText());
-			saveName.setText("");
+			//Respond to when save game button is pressed
+			if(e.getSource() == saveButton && !saveName.getText().equals("")) {
+				System.out.println("Saving");
+				saveGame(saveName.getText());
+				saveName.setText("");
+			}
+			
 		}
 		
 	}
@@ -779,7 +799,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		if(!(filepath.exists() && !filepath.isDirectory())) {
 			
 			try {
-
+				
+				//Write data to a file
 				PrintWriter pr = new PrintWriter(file);
 				
 				pr.println(turn + " " + phase); //Print turn and phase on the first line
@@ -808,6 +829,10 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				for(int i = 0; i < 4; i++) {
 					pr.println(players[i].getRow() + " " + players[i].getCol());
 				}
+				pr.println();
+				
+				//Print the last push
+				pr.println(lastPush);
 				
 				pr.close();
 				

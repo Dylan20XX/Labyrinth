@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+//This is the class for a card object to be used in the Labyrinth game
 public class Card extends JLabel{
 	
 	private String treasure;
@@ -12,7 +13,7 @@ public class Card extends JLabel{
 	
 	public static ArrayList<Card> deck = new ArrayList<Card>();
 	
-	//Unmovable Treasures - labeled in order that they appear on the gam board from top right
+	//Non-movable Treasures - labeled in order that they appear on the gam board from top right
 	public static Card bookCard = new Card("book", Assets.treasureCards[0], 0);
 	public static Card bagCard = new Card("bag", Assets.treasureCards[1], 1);
 	public static Card paintingCard = new Card("painting", Assets.treasureCards[2], 2);
@@ -40,7 +41,7 @@ public class Card extends JLabel{
 	public static Card sorceressCard = new Card("sorceress", Assets.treasureCards[22], 22);
 	public static Card spiderCard = new Card("spider", Assets.treasureCards[23], 23);
 	
-	//Constructor method
+	//Constructor Method
 	public Card(String treasure, ImageIcon image, int id) {
 		super();
 		this.treasure = treasure;
@@ -50,10 +51,11 @@ public class Card extends JLabel{
 		cards[id] = this;
 	}
 	
+	//Empty Constructor Method
 	public Card() {
 	}
 	
-	//Getter and setter
+	//Getter and Setters
 	public String getTreasure() {
 		return treasure;
 	}

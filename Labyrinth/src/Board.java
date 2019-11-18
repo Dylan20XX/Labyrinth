@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.swing.JLabel;
 
+//This is the class for a board object to be used in the Labyrinth game
 public class Board {
 	
 	private Tile[][] board = new Tile[9][9];
@@ -19,20 +20,14 @@ public class Board {
 	
 	private ArrayList<Integer> adj[] = new ArrayList[50]; //Adjacency matrix
 	
-	//Add an array of JLabels to highlight path
-	
 	//4 L corner tiles
-	//12 T unmovable treasure tiles
+	//12 T non-movable treasure tiles
 	//6 T movable treasure tiles
 	//6 L movable treasure tiles
 	//10 L tiles
 	//12 I tiles
 
-	public Board(Tile[][] board) {
-		super();
-		this.board = board;
-	}
-
+	//Constructor Method
 	public Board() {
 		super();
 		
@@ -41,7 +36,8 @@ public class Board {
             adj[i] = new ArrayList<Integer>();
         }
 	}
-
+	
+	//Getters and Setters
 	public Tile[][] getBoard() {
 		return board;
 	}
@@ -77,7 +73,7 @@ public class Board {
 	//This method randomly fills the board with tiles
 	public void fillBoard() {
 		
-		//Fill unmovable tiles
+		//Fill non-movable tiles
 		board[1][1] = Tile.tileP1Start; 
 		board[1][3] = Tile.tileBook; 
 		board[1][5] = Tile.tileBag; 
@@ -125,13 +121,12 @@ public class Board {
 				
 				//Set the bounds of the highlight labels
 				highlight[row][col] = new JLabel();
-//				highlight[row][col] = new JLabel(Assets.tileHighlight);
-//				highlight[row][col].setIcon(null);
 				highlight[row][col].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
 				
 			}
 		}
 		
+		//Initialize the boarder tiles
 		for(int row = 0; row < 9; row++) {
 			for(int col = 0; col < 9; col++) {
 				if(board[row][col] == null) {
@@ -142,15 +137,11 @@ public class Board {
 		
 	}
 	
-	//* move player if player is on the column or row that is pushed
+	//This method pushes a column down
 	public void pushColDown(int col) {
 		for(int row = 8; row > 0; row--) {
-
-			board[row][col].setType(board[row - 1][col].getType());
-			board[row][col].setTreasure(board[row - 1][col].getTreasure());
-			board[row][col].setImages(board[row - 1][col].getImages());
-			board[row][col].setRotation(board[row - 1][col].getRotation());
-			board[row][col].setId(board[row - 1][col].getId());
+			
+			board[row][col].copy(board[row - 1][col]);
 
 			if(board[row][col] != null)
 				board[row][col].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
@@ -158,32 +149,22 @@ public class Board {
 		}
 	}
 	
+	//This method pushes a column up
 	public void pushColUp(int col) {
 		for(int row = 0; row < 8; row++){
 			
-			board[row][col].setType(board[row + 1][col].getType());
-			board[row][col].setTreasure(board[row + 1][col].getTreasure());
-			board[row][col].setImages(board[row + 1][col].getImages());
-			board[row][col].setRotation(board[row + 1][col].getRotation());
-			board[row][col].setId(board[row + 1][col].getId());
-			
-			//board[row][col] = board[row+1][col];
+			board[row][col].copy(board[row + 1][col]);
 			
 			if(board[row][col] != null)
 				board[row][col].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
 		}
 	}
 	
+	//This method pushes a column to the right
 	public void pushRowRight(int row) {
 		for(int col = 8; col > 0; col-- ){
 			
-			board[row][col].setType(board[row][col - 1].getType());
-			board[row][col].setTreasure(board[row][col - 1].getTreasure());
-			board[row][col].setImages(board[row][col - 1].getImages());
-			board[row][col].setRotation(board[row][col - 1].getRotation());
-			board[row][col].setId(board[row][col - 1].getId());
-			
-			//board[row][col] = board[row][col-1];
+			board[row][col].copy(board[row][col - 1]);
 			
 			if(board[row][col] != null)
 				board[row][col].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
@@ -191,16 +172,11 @@ public class Board {
 		
 	}
 	
+	//This method pushes a column to the left
 	public void pushRowLeft(int row) {
 		for(int col = 0; col < 8; col++ ){
 			
-			board[row][col].setType(board[row][col + 1].getType());
-			board[row][col].setTreasure(board[row][col + 1].getTreasure());
-			board[row][col].setImages(board[row][col + 1].getImages());
-			board[row][col].setRotation(board[row][col + 1].getRotation());
-			board[row][col].setId(board[row][col + 1].getId());
-			
-			//board[row][col] = board[row][col+1];
+			board[row][col].copy(board[row][col + 1]);
 			
 			if(board[row][col] != null)
 				board[row][col].setBounds(col * Tile.TILE_SIZE, row * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE);
@@ -213,9 +189,7 @@ public class Board {
 		//Build the adjacency matrix
 		buildAdjacencyMatrix();
 		
-		int nodeNum = (row - 1) * 7 + col; //start point
-		//row = nodeNum / 7 + 1
-		//col = nodeNum % 7
+		int nodeNum = (row - 1) * 7 + col; //Start point
 		
 		//Reset the parent nodes map
 		parentNodes.clear();
@@ -233,13 +207,14 @@ public class Board {
             int cur = Q.poll();
             for(int v : adj[cur]) {
             	if(!vis[v]) {
-            		parentNodes.put(v, cur); //parentNodes.put(unvisitedNode, currentNode)
+            		parentNodes.put(v, cur); //The key is the unvisited node and the value is the current node
             		Q.add(v);
             		vis[v] = true;
             	}	
             }
         }
         
+        //Highlight the tiles that can be traveled to;
         highlightTiles();
 		
 	}
@@ -247,21 +222,20 @@ public class Board {
 	//This method builds the adjacency matrix to be used for path finding
 	private void buildAdjacencyMatrix() {
 		
+		//Set the node number for each tile
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
 				board[row][col].setNodeNum((row - 1) * 7 + col);
 			}
 		}
 		
+		//Clear the adjacency matrix
 		for(int i = 1; i < adj.length; i++) {
             adj[i].clear();
         }
 		
 		for(int row = 1; row < 8; row++) {
 			for(int col = 1; col < 8; col++) {
-				
-				System.out.println("row = " + row);
-	    		System.out.println("col = " + col);
 				
 				//Check if piece to the right is connected
 				if(board[row][col].getOpenings()[1] && board[row][col + 1] != null && board[row][col + 1].getOpenings()[3] && col != 7) {
@@ -285,6 +259,8 @@ public class Board {
 		
         //Highlight available tiles
 		for(int i = 1; i < adj.length; i++) {
+			
+			//Convert the node number back to a row and column number
     		int row = i / 7 + 1;
     		int col = i % 7;
     		
@@ -300,13 +276,11 @@ public class Board {
     			row = 7;
     		}
     		
-    		System.out.println("rowHighlight = " + row);
-    		System.out.println("colHighlight = " + col);
-    		
+    		//If the tile can be reached, highlight it yellow
 			if(vis[i]) {
         		highlight[row][col].setIcon(Assets.tileHighlightYellow);
-            } else {
-            	//highlight[rowHighlight][colHighlight].setIcon(null);
+            } else { 
+            	//Highlight unreachable tiles with blue
             	highlight[row][col].setIcon(Assets.tileHighlightBlue);
             }
         }
@@ -329,11 +303,13 @@ public class Board {
 		
 		ArrayList<Position> shortestPath = new ArrayList<Position>();
 		
+		//Get the start and end node from the rows and columns
 		int startNode = (startRow - 1) * 7 + startCol;
 		int endNode = (endRow - 1) * 7 + endCol;
 		
 		int currentNode = endNode;
 		
+		//Use the map to add the shortest path positions to the array list
 		while(currentNode != startNode) {
 			
 			//Convert node number to row and column
@@ -352,14 +328,15 @@ public class Board {
     			row = 7;
     		}
 			
-			shortestPath.add(new Position(row, col));
-			currentNode = parentNodes.get(currentNode);
+			shortestPath.add(new Position(row, col)); //Add the current position to the array list
+			currentNode = parentNodes.get(currentNode); //Set the current node to the one before it on the path
 			
 		}
 		
 		//Reverse the array list because nodes are entered in reverse order
 		Collections.reverse(shortestPath);
 		
+		//Return the shortest path array list
 		return shortestPath;
 		
 	}

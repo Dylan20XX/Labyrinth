@@ -5,6 +5,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+//This is the class for tile objects to be used used in the Labyrinth game
 public class Tile extends JButton implements Cloneable{
 	
 	public static Tile[] tiles = new Tile[30];
@@ -27,7 +28,7 @@ public class Tile extends JButton implements Cloneable{
 	private ImageIcon[] images;
 	private int nodeNum; //determined by position on the board (1-49) = (row - 1) * 7 + col
 	
-	//Unmovable tiles
+	//Non-movable tiles
 	public static Tile tileP1Start = new Tile("L", Assets.permenantTiles[0], 1, 0);
 	public static Tile tileBook = new Tile("T", "book", Assets.permenantTiles[1], 0, 1);
 	public static Tile tileBag = new Tile("T", "bag", Assets.permenantTiles[2], 0, 2);
@@ -66,39 +67,6 @@ public class Tile extends JButton implements Cloneable{
 	public static Tile tileL = new Tile("L", Assets.tileL, r.nextInt(4), 28);
 	public static Tile tileI = new Tile("I", Assets.tileI, r.nextInt(4), 29);
 	
-//	public static Tile tileL1 = new Tile("L", Assets.tileL, r.nextInt(4), 28);
-//	public static Tile tileL2 = new Tile("L", Assets.tileL, r.nextInt(4), 29);
-//	public static Tile tileL3 = new Tile("L", Assets.tileL, r.nextInt(4), 30);
-//	public static Tile tileL4 = new Tile("L", Assets.tileL, r.nextInt(4), 31);
-//	public static Tile tileL5 = new Tile("L", Assets.tileL, r.nextInt(4), 32);
-//	public static Tile tileL6 = new Tile("L", Assets.tileL, r.nextInt(4), 33);
-//	public static Tile tileL7 = new Tile("L", Assets.tileL, r.nextInt(4), 34);
-//	public static Tile tileL8 = new Tile("L", Assets.tileL, r.nextInt(4), 35);
-//	public static Tile tileL9 = new Tile("L", Assets.tileL, r.nextInt(4), 36);
-//	public static Tile tileL10 = new Tile("L", Assets.tileL, r.nextInt(4), 37);
-//	
-//	public static Tile tileI1 = new Tile("I", Assets.tileI, r.nextInt(4), 38);
-//	public static Tile tileI2 = new Tile("I", Assets.tileI, r.nextInt(4), 39);	
-//	public static Tile tileI3 = new Tile("I", Assets.tileI, r.nextInt(4), 40);	
-//	public static Tile tileI4 = new Tile("I", Assets.tileI, r.nextInt(4), 41);	
-//	public static Tile tileI5 = new Tile("I", Assets.tileI, r.nextInt(4), 42);	
-//	public static Tile tileI6 = new Tile("I", Assets.tileI, r.nextInt(4), 43);	
-//	public static Tile tileI7 = new Tile("I", Assets.tileI, r.nextInt(4), 44);	
-//	public static Tile tileI8 = new Tile("I", Assets.tileI, r.nextInt(4), 45);	
-//	public static Tile tileI9 = new Tile("I", Assets.tileI, r.nextInt(4), 46);	
-//	public static Tile tileI10 = new Tile("I", Assets.tileI, r.nextInt(4), 47);	
-//	public static Tile tileI11 = new Tile("I", Assets.tileI, r.nextInt(4), 48);	
-//	public static Tile tileI12 = new Tile("I", Assets.tileI, r.nextInt(4), 49);	
-	
-//	public Tile(String type, ImageIcon images[]) {
-//		super();
-//		this.type = type;
-//		this.hasTreasure = false;
-//		this.treasure = "";
-//		this.images = images;
-//		setRotation(0);
-//	}
-	
 	//Constructor for movable tile without treasure
 	public Tile(String type, ImageIcon images[], int rotation, int id) {
 		super();
@@ -109,16 +77,6 @@ public class Tile extends JButton implements Cloneable{
 		setRotation(rotation);
 		tiles[id] = this;
 	}
-	
-	//Constructor for movable tile with treasure
-//	public Tile(String type, String treasure, ImageIcon[] images) {
-//		super();
-//		this.type = type;
-//		this.hasTreasure = true;
-//		this.treasure = treasure;
-//		this.images = images;
-//		setRotation(0);
-//	}
 	
 	//Constructor for movable tile with treasure
 	public Tile(String type, String treasure, ImageIcon[] images, int rotation, int id) {
@@ -153,6 +111,7 @@ public class Tile extends JButton implements Cloneable{
 		tiles[id] = this;
 	}
 	
+	//Empty Constructor Method
 	public Tile() {
 		super();
 	}
@@ -178,14 +137,14 @@ public class Tile extends JButton implements Cloneable{
 		return rotation;
 	}
 	
-	//Change openings in the rotation setter
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 		
 		//If the tile is movable set its image icon
 		if(images != null) 
 			setIcon(images[rotation]);
-			
+		
+		//Change the openings depending on the shape and rotation value
 		if(type.equals("T")) {
 			
 			for(int i = 0; i < 4; i++) {
@@ -231,6 +190,7 @@ public class Tile extends JButton implements Cloneable{
 		
 	}
 	
+	//Getters and Setters
 	public boolean[] getOpenings() {
 		return openings;
 	}
@@ -277,6 +237,15 @@ public class Tile extends JButton implements Cloneable{
 		return "Tile [type=" + type + ", treasure=" + treasure + ", rotation=" + rotation + ", id=" + id + ", openings="
 				+ Arrays.toString(openings) + ", nodeNum=" + nodeNum + "]";
 	}
+	
+	//This method allows a tile to copy the variables of another
+	public void copy(Tile tileToCopy) {
+		setType(tileToCopy.getType());
+		setTreasure(tileToCopy.getTreasure());
+		setImages(tileToCopy.getImages());
+		setRotation(tileToCopy.getRotation());
+		setId(tileToCopy.getId());
+	}
 
 	//This method sets up the tile deck
 	public static void setupTileDeck() {
@@ -288,7 +257,9 @@ public class Tile extends JButton implements Cloneable{
 		//10 L tiles
 		//12 I tiles
 		
+		//Add movable treasure tiles to the tile deck
 		for(int id = 16; id < 28; id++) {
+			
 			Tile tile = new Tile();
 			
 			tile.setType(tiles[id].getType());
@@ -299,10 +270,9 @@ public class Tile extends JButton implements Cloneable{
 
 			tileDeck.add(tile);
 			
-//			tileDeck.add(new Tile(tiles[id].type, tiles[id].treasure, 
-//					tiles[id].images, tiles[id].rotation, tiles[id].id));	
 		}
 		
+		//Add movable "L" tiles to the tile deck
 		for(int i = 0; i < 10; i++) {
 			
 			Tile tile = new Tile();
@@ -317,6 +287,7 @@ public class Tile extends JButton implements Cloneable{
 			
 		}
 		
+		//Add movable "I" tiles to the tile deck
 		for(int i = 0; i < 12; i++) {
 			
 			Tile tile = new Tile();
@@ -328,35 +299,8 @@ public class Tile extends JButton implements Cloneable{
 			tile.setId(tiles[29].getId());
 			
 			tileDeck.add(tile);
-//			tileDeck.add(new Tile("I", Assets.tileI, r.nextInt(4), 29));	
+			
 		}
-		
-//		try {
-//			tileDeck.add((Tile) tileBat.clone());
-//			tileDeck.add(tileDragon.clone());
-//			tileDeck.add(tileGhostBottle.clone());
-//			tileDeck.add(tileGhostWaving.clone());
-//			tileDeck.add(tileLadyPig.clone());
-//			tileDeck.add(tileSorceress.clone());
-//			
-//			tileDeck.add(tileLizard.clone());
-//			tileDeck.add(tileMoth.clone());
-//			tileDeck.add(tileOwl.clone());
-//			tileDeck.add(tileRat.clone());
-//			tileDeck.add(tileScarab.clone());
-//			tileDeck.add(tileSpider.clone());
-//			
-//			for(int i = 0; i < 10; i++) {
-//				tileDeck.add(tileL.clone());	
-//			}
-//			
-//			for(int i = 0; i < 12; i++) {
-//				tileDeck.add(tileI.clone());	
-//			}
-//		} catch (CloneNotSupportedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		
 	}
 	
