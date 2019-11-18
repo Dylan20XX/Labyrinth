@@ -125,15 +125,16 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	//This method sets up the buttons for each panel
 	private void buttonSetup() {
-//dd
+
 		//Setup buttons for title screen
 		playButton.setBounds(500, 200, 300, 100);
 		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
-		playButton.setBackground(Color.RED);
+		playButton.setBackground(Color.ORANGE);
 		playButton.addActionListener(this);
 		titleScreenPanel.add(playButton);
 
 		savedGameButton.setBounds(500, 350, 300, 100);
+		savedGameButton.setBackground(Color.ORANGE);
 		savedGameButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		savedGameButton.addActionListener(this);
 		titleScreenPanel.add(savedGameButton);
