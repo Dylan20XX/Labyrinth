@@ -61,12 +61,12 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		titleScreenPanel.setBackground(new Color(191,231,247));
 
 		//Setup the label
-		titleLabel.setBounds(565, 30, 150, 50);
-		titleLabel.setFont(new Font("Ultra", Font.BOLD, 24));
+		titleLabel.setBounds(375, 30, 700, 120);
+		titleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 105));
 		titleScreenPanel.add(titleLabel);
 		
-		titleImageLabel.setBounds(650, 100, 500, 500);
-		titleScreenPanel.add(titleImageLabel);
+		//titleImageLabel.setBounds(650, 100, 500, 500);
+		//titleScreenPanel.add(titleImageLabel);
 
 		//Revalidate and repaint the panel so the image labels appear
 		titleScreenPanel.revalidate();
@@ -85,7 +85,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 		//Setup the label
 		savedGamesLabel.setBounds(515, 30, 250, 50);
-		savedGamesLabel.setFont(new Font("Ultra", Font.BOLD, 24));
+		savedGamesLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
 		savedGamePanel.add(savedGamesLabel);
 		
 		//Setup the button panel
@@ -127,28 +127,29 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 	private void buttonSetup() {
 
 		//Setup buttons for title screen
-		playButton.setBounds(220, 100, 300, 150);
-		playButton.setFont(new Font("Ultra", Font.BOLD, 36));
+		playButton.setBounds(500, 200, 300, 100);
+		playButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
+		playButton.setBackground(Color.RED);
 		playButton.addActionListener(this);
 		titleScreenPanel.add(playButton);
 
-		savedGameButton.setBounds(220, 350, 300, 150);
-		savedGameButton.setFont(new Font("Ultra", Font.BOLD, 36));
+		savedGameButton.setBounds(500, 350, 300, 100);
+		savedGameButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		savedGameButton.addActionListener(this);
 		titleScreenPanel.add(savedGameButton);
 		
 		startButton.setBounds(700, 100, 250, 150);
-		startButton.setFont(new Font("Ultra", Font.BOLD, 36));
+		startButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		startButton.addActionListener(this);
 		savedGamePanel.add(startButton);
 
 		deleteButton.setBounds(700, 350, 250, 150);
-		deleteButton.setFont(new Font("Ultra", Font.BOLD, 36));
+		deleteButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		deleteButton.addActionListener(this);
 		savedGamePanel.add(deleteButton);
 		
 		backButton.setBounds(1000, 550, 200, 100);
-		backButton.setFont(new Font("Ultra", Font.BOLD, 36));
+		backButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		backButton.addActionListener(this);
 		savedGamePanel.add(backButton);
 
