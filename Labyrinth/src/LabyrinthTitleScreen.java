@@ -100,6 +100,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	}
 	
+	//This method sets up the list of saved game buttons
 	private void setupFileList() {
 		
 		//reset the array lists
@@ -222,14 +223,16 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			updateState();
 		}
 		
+		//Select a save game to play or delete
 		for(int i = 0; i < savedGames.size(); i++) {
 			if(event.getSource() == savedGames.get(i)) {
 				
+				//Change the background of the selected saved game
 				for(int j = 0; j < savedGames.size(); j++) {
 					savedGames.get(j).setBackground(new JButton().getBackground());
 				}
-				
 				savedGames.get(i).setBackground(Color.YELLOW);
+				
 				selectedGame = savedGames.get(i).getText();
 				
 			}
@@ -261,6 +264,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		
 	}
 	
+	//This method is used to delete saved games
 	private void deleteGame() {
 		
 		String gameData = String.format("SavedGames/%s", selectedGame);
