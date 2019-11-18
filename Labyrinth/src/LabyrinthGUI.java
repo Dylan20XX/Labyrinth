@@ -460,10 +460,12 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				15, board.getBoard()[players[player].getRow()][players[player].getCol()].getY() + 15);
 	}
 	
+	//This method displays the player victory screen after the game is won
 	private void playerVictory(int player) {
 		System.out.printf("P%d Wins", player);
 	}
-
+	
+	//This method detects when a timer ticks or when a button is pressed
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
