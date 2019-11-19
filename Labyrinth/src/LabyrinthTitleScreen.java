@@ -29,6 +29,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 	private JLabel savedGamesLabel = new JLabel("SAVED GAMES");
 	private JButton playButton = new JButton("Play");
 	private JButton startButton = new JButton("Start");
+	private JButton instructionButton = new JButton("Instruction");
 	private JButton deleteButton = new JButton("Delete");
 	private JButton savedGameButton = new JButton("Saved Games");
 	private JButton backButton = new JButton("Back");
@@ -52,11 +53,13 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		setupFileList();
 
 	}
-	//
+	
 	
 	public void playTheMusic(){
+		
 		MusicPlayer m = new MusicPlayer();
 		m.loopMusic("Audio/BlazerRail.wav");
+		
 	}
 
 	//This method sets up the title screen panel
@@ -147,6 +150,12 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		savedGameButton.addActionListener(this);
 		titleScreenPanel.add(savedGameButton);
 		
+		instructionButton.setBounds(500, 500, 300, 100);
+		instructionButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
+		instructionButton.setBackground(Color.ORANGE);
+		instructionButton.addActionListener(this);
+		titleScreenPanel.add(instructionButton);
+		
 		startButton.setBounds(700, 100, 250, 150);
 		startButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		startButton.addActionListener(this);
@@ -206,7 +215,9 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 		//Enter the settings screen if the play button is pressed
 		if(event.getSource() == playButton) {
-
+			
+			MusicPlayer m2 = new MusicPlayer();
+			m2.playMusic("Audio/sound.wav");
 			new LabyrinthGUI();
 			this.dispose();
 
