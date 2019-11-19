@@ -35,7 +35,6 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	private JLabel player2CardHeading = new JLabel("P2");
 	private JLabel player3CardHeading = new JLabel("P3");
 	private JLabel player4CardHeading = new JLabel("P4");
-	private JLabel[] cardOutlines = new JLabel[4];
 	private Player[] players = new Player[4];
 	
 	private Tile tileInHand;
@@ -136,7 +135,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 				int numCards = input.nextInt();
 				
 				//Remove the cards automatically given to the player when initialized from the card panel
-				for(int j = 0; j < numCards; j++) {
+				for(int j = 0; j < 5; j++) {
 					cardPanel.remove(players[i].getHand().remove(0));
 				}
 				
@@ -251,13 +250,6 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		players[1] = new Player(Assets.p2, 1, 7);
 		players[2] = new Player(Assets.p3, 7, 1);
 		players[3] = new Player(Assets.p4, 7, 7);
-		
-		//Setup the card outlines for the cards each player must currently collect
-		for(int i = 0; i < 4; i++) {
-			cardOutlines[i] = new JLabel(Assets.cardOutline);
-			cardOutlines[i].setBounds(100, i * 100, 80, 100);
-			cardPanel.add(cardOutlines[i]);
-		}
 		
 		//Display the cards
 		displayCards();
@@ -529,20 +521,26 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 //					System.out.println("treasure found = " + board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure());
 
 					//Remove cards if treasure is collected
-					if(players[turn].getHand().get(0).getTreasure().equalsIgnoreCase(
-							board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure())) {
+					for(int i = 0; i < players[turn].getHand().size(); i++) {
+						
+						if(players[turn].getHand().get(i).getTreasure().equalsIgnoreCase(
+								board.getBoard()[players[turn].getRow()][players[turn].getCol()].getTreasure())) {
 
-						cardPanel.remove(players[turn].getHand().remove(0));
-						repaint();
-						validate();
+							cardPanel.remove(players[turn].getHand().remove(i));
+							repaint();
+							validate();
 
-						displayCards();
+							displayCards();
 
-						if(players[turn].getHand().isEmpty())
-							playerVictory(turn + 1);
-
+							if(players[turn].getHand().isEmpty())
+								playerVictory(turn + 1);
+							
+							break;
+							
+						}
+						
 					}
-
+					
 					//Reset selectedRow and columnVariables;
 					selectedRow = 0;
 					selectedCol = 0;
