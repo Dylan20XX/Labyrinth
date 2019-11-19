@@ -47,9 +47,15 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		titleScreenPanelSetup();
 		savedGamePanelSetup();
 		buttonSetup();
+		playTheMusic();
 		frameSetup();
 		setupFileList();
 
+	}
+	
+	public void playTheMusic(){
+		MusicPlayer m = new MusicPlayer();
+		m.loopMusic("Audio/BlazerRail.wav");
 	}
 
 	//This method sets up the title screen panel
