@@ -58,7 +58,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	// 10       4
 	// 9        5
 	//    8 7 6
-	private JButton rotateButton = new JButton("Rotate");
+	private JButton rotateRightButton = new JButton("Rotate Right");
+	private JButton rotateLeftButton = new JButton("Rotate Left");
 	private JButton confirmButton = new JButton("Confirm");
 	private JButton saveButton = new JButton("Save Game");
 
@@ -216,9 +217,13 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	//This method sets up the buttons used to rotate and place tiles and save button
 	private void buttonSetup() {
 
-		rotateButton.setBounds(650, 540, 120, 60);
-		rotateButton.addActionListener(this);
-		add(rotateButton);
+		rotateLeftButton.setBounds(650, 540, 120, 60);
+		rotateLeftButton.addActionListener(this);
+		add(rotateLeftButton);
+		
+		rotateRightButton.setBounds(650, 610, 120, 60);
+		rotateRightButton.addActionListener(this);
+		add(rotateRightButton);
 
 		confirmButton.setBounds(1070, 540, 120, 60);
 		confirmButton.addActionListener(this);
@@ -496,6 +501,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 	//This method displays the player victory screen after the game is won
 	private void playerVictory(int player) {
 		System.out.printf("P%d Wins", player);
+		new LabyrinthVictoryScreen(player);
+		this.dispose();
 	}
 
 	//This method detects when a timer ticks or when a button is pressed
@@ -612,9 +619,22 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 					}
 				}
 			}
-
+			
 			//Allow the player to rotate the tile during the tile placement phase
-			if(e.getSource() == rotateButton && phase == 0) {
+			if(e.getSource() == rotateLeftButton && phase == 0) {
+
+				if(tileInHand.getRotation() != 0)
+					tileInHand.setRotation(tileInHand.getRotation()-1);
+				else
+					tileInHand.setRotation(3);
+
+				tileInHandLabel.setIcon(new ImageIcon(((ImageIcon) tileInHand.getIcon()).
+						getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH)));
+
+			}
+			
+			//Allow the player to rotate the tile during the tile placement phase
+			if(e.getSource() == rotateRightButton && phase == 0) {
 
 				if(tileInHand.getRotation() != 3)
 					tileInHand.setRotation(tileInHand.getRotation()+1);

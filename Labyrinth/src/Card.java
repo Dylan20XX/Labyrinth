@@ -47,7 +47,6 @@ public class Card extends JLabel{
 		this.treasure = treasure;
 		this.id = id;
 		setIcon(image);
-		deck.add(this);
 		cards[id] = this;
 	}
 	
@@ -70,6 +69,14 @@ public class Card extends JLabel{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public static void deckSetup() {
+		
+		for(int i = 0; i < cards.length; i++) {
+			deck.add(cards[i]);
+		}
+		
 	}
 	
 }
