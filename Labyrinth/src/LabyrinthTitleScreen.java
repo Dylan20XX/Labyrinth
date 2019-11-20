@@ -31,7 +31,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		private JPanel instructionsScreenPanel = new JPanel();
 		private JPanel savedGamePanel = new JPanel();
 		private JLabel titleLabel = new JLabel("LABYRINTH");
-		//private JLabel titleImageLabel = new JLabel(Assets.titleScreen);
+		private JLabel titleImageLabel = new JLabel(Assets.titleScreen);
 		private JLabel instructionsTitleLabel = new JLabel("HOW TO PLAY");
 		private JLabel treasureCardExLabel = new JLabel(Assets.cardExample);
 		private JLabel mazeTileExLabel = new JLabel(Assets.tileExample);
