@@ -242,7 +242,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		cardPanel.setLayout(null);
 		cardPanel.setBounds(650, 90, Tile.TILE_SIZE * 9, 400);
 		cardPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
+		cardPanel.setBackground(Color.BLACK	);
+		
 		//Setup the headings for each player's cards
 		player1CardHeading.setBounds(20, 35, 50, 30);
 		player1CardHeading.setFont(new Font("Ultra", Font.BOLD, 36));
@@ -368,6 +369,7 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 		setTitle("Labyrinth");
 		setSize(1280, 720);
 		setLayout(null);
+		getContentPane().setBackground(new Color(191,231,247));
 
 		//Add the panels
 		add(boardPanel);

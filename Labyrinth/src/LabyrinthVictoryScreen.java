@@ -106,6 +106,8 @@ public class LabyrinthVictoryScreen extends JFrame implements ActionListener {
 
 		//Return to the title screen when one of the back buttons is pressed
 		if(event.getSource() == backButton) {
+
+			LabyrinthTitleScreen.m.StopMusic(); 
 			
 			MusicPlayer m2 = new MusicPlayer();
 			m2.playMusic("Audio/sound.wav");

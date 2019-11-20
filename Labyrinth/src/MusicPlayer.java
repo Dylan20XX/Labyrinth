@@ -6,14 +6,14 @@ import javax.sound.sampled.Clip;
 public class MusicPlayer { // from YouTube by Max O'Didly
 
 	// Variables for the music
-	static Clip clip;
+	Clip clip;
 	
 	public MusicPlayer(){
 		
 	}
 
 	// Methods that actually create the music
-	public static void loopMusic(String musicLocation) {
+	public void loopMusic(String musicLocation) {
 
 		try {
 
@@ -31,7 +31,7 @@ public class MusicPlayer { // from YouTube by Max O'Didly
 
 	}
 	
-	public static void playMusic(String musicLocation2) {
+	public void playMusic(String musicLocation2) {
 
 		try {
 
@@ -49,7 +49,7 @@ public class MusicPlayer { // from YouTube by Max O'Didly
 	}
 
 	// Method to stop the music
-	public static void StopMusic() {
+	public void StopMusic() {
 		// Stop the music
 		clip.stop();
 
