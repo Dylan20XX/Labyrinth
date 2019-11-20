@@ -57,6 +57,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			+ "maze tile, you can choose where you want to move by left clicking the mouse. If you collect a treasure, that treasure card will "
 			+ "dissapear from your hand and you must collect the following one.");
 
+	public static MusicPlayer m = new MusicPlayer();
 	
 	private ArrayList<File> savedGameFiles = new ArrayList<File>();
 
@@ -91,7 +92,6 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 	
 	public void playTheMusic(){
 		
-		MusicPlayer m = new MusicPlayer();
 		m.loopMusic("Audio/BlazerRail.wav");
 		
 	}
@@ -128,13 +128,13 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			instructionsScreenPanel.setVisible(false);
 
 			//Setup the label
-			instructionsTitleLabel.setBounds(565, 30, 200, 50);
-			instructionsTitleLabel.setFont(new Font("Ultra", Font.BOLD, 24));
+			instructionsTitleLabel.setBounds(425, 30, 600, 60);
+			instructionsTitleLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 60));
 			instructionsScreenPanel.add(instructionsTitleLabel);
 			
 			//Label that says the instructions
-			instructionsLabel.setBounds(100, 150, 1080, 300);
-			instructionsLabel.setFont(new Font("Ultra", Font.BOLD, 20));
+			instructionsLabel.setBounds(100, 110, 1080, 300);
+			instructionsLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
 			instructionsScreenPanel.add(instructionsLabel);
 			
 			treasureCardExLabel.setBounds(250, 475, 130, 150);
@@ -142,7 +142,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			
 			//Label that says Example Card
 			cardLabel.setBounds(250, 425, 200, 50);
-			cardLabel.setFont(new Font("Ultra", Font.BOLD, 20));
+			cardLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
 			instructionsScreenPanel.add(cardLabel);
 			
 			mazeTileExLabel.setBounds(500, 475, 150, 150);
@@ -150,7 +150,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			
 			//Label that says the Example Tile
 			tileLabel.setBounds(515, 425, 200, 50);
-			tileLabel.setFont(new Font("Ultra", Font.BOLD, 20));
+			tileLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
 			instructionsScreenPanel.add(tileLabel);
 
 			//Revalidate and repaint the panel so the image labels appear
@@ -169,8 +169,8 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		savedGamePanel.setVisible(false); //Initially hide the highscore panel 
 
 		//Setup the label
-		savedGamesLabel.setBounds(515, 30, 250, 50);
-		savedGamesLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
+		savedGamesLabel.setBounds(480, 30, 400, 50);
+		savedGamesLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 		savedGamePanel.add(savedGamesLabel);
 		
 		//Setup the button panel
@@ -203,7 +203,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			savedGames.get(i).setMaximumSize(savedGames.get(i).getSize());
 			savedGames.get(i).setMinimumSize(savedGames.get(i).getSize());
 			savedGames.get(i).setPreferredSize(savedGames.get(i).getSize());
-			savedGames.get(i).setFont(new Font("Ultra", Font.BOLD, 36));
+			savedGames.get(i).setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 			savedGameButtonPanel.add(savedGames.get(i));
 		}
 
@@ -247,7 +247,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		savedGamePanel.add(backButton);
 		
 		backButton1.setBounds(1000, 550, 200, 100);
-		backButton1.setFont(new Font("Ultra", Font.BOLD, 36));
+		backButton1.setFont(new Font("Comic Sans MS", Font.BOLD, 36));
 		backButton1.addActionListener(this);
 		instructionsScreenPanel.add(backButton1);
 
