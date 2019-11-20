@@ -27,7 +27,6 @@ import javax.swing.JScrollPane;
 public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	//Frame components
-	private JPanel test = new JPanel();
 	private JPanel titleScreenPanel = new JPanel();
 	private JPanel savedGamePanel = new JPanel();
 	private JLabel titleLabel = new JLabel("LABYRINTH");
@@ -61,13 +60,16 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	}
 	
+	//By KADRI Soft on YouTube (https://www.youtube.com/watch?v=UnzpZj77hYE)
+	//Makes a custom cursor image
 	public void cursorSetup() {
 		
 		Toolkit t1 = Toolkit.getDefaultToolkit();
 		Image img = t1.getImage("Images/mycursor.png");
 		Point p = new Point(0,0);
 		Cursor c = t1.createCustomCursor(img, p, "cursor.png");
-		test.setCursor(c);
+		setCursor(c);
+		
 	}
 	
 	public void playTheMusic(){
@@ -191,7 +193,6 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 	//This method sets up the frame
 	private void frameSetup(){
 		
-		add(test);
 		add(titleScreenPanel);
 		add(savedGamePanel);
 		setLayout(null);
