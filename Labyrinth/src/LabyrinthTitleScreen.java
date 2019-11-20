@@ -101,7 +101,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	}
 
-	//This method sets up the highscore panel
+	//This method sets up the saved game panel
 	private void savedGamePanelSetup() {
 
 		//Setup the panel
