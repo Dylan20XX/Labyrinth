@@ -27,20 +27,36 @@ import javax.swing.JScrollPane;
 public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	//Frame components
-	private JPanel titleScreenPanel = new JPanel();
-	private JPanel savedGamePanel = new JPanel();
-	private JLabel titleLabel = new JLabel("LABYRINTH");
-	private JLabel titleImageLabel = new JLabel(Assets.titleScreen);
-	private JLabel savedGamesLabel = new JLabel("SAVED GAMES");
-	private JButton playButton = new JButton("Play");
-	private JButton startButton = new JButton("Start");
-	private JButton instructionButton = new JButton("Instruction");
-	private JButton deleteButton = new JButton("Delete");
-	private JButton savedGameButton = new JButton("Saved Games");
-	private JButton backButton = new JButton("Back");
-	private JPanel savedGameButtonPanel = new JPanel();
-	private JScrollPane savedGamesScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	private ArrayList<JButton> savedGames= new ArrayList<JButton>();
+		private JPanel titleScreenPanel = new JPanel();
+		private JPanel instructionsScreenPanel = new JPanel();
+		private JPanel savedGamePanel = new JPanel();
+		private JLabel titleLabel = new JLabel("LABYRINTH");
+		//private JLabel titleImageLabel = new JLabel(Assets.titleScreen);
+		private JLabel instructionsTitleLabel = new JLabel("HOW TO PLAY");
+		private JLabel treasureCardExLabel = new JLabel(Assets.cardExample);
+		private JLabel mazeTileExLabel = new JLabel(Assets.tileExample);
+		private JLabel cardLabel = new JLabel("Card Example");
+		private JLabel tileLabel = new JLabel("Tile Example");
+		private JLabel savedGamesLabel = new JLabel("SAVED GAMES");
+		private JButton playButton = new JButton("Play");
+		private JButton instructionsButton = new JButton("How To Play");
+		private JButton startButton = new JButton("Start");
+		private JButton deleteButton = new JButton("Delete");
+		private JButton savedGameButton = new JButton("Saved Games");
+		private JButton backButton = new JButton("Back");
+		private JButton backButton1 = new JButton("Back");
+		private JPanel savedGameButtonPanel = new JPanel();
+		private JScrollPane savedGamesScrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		private ArrayList<JButton> savedGames= new ArrayList<JButton>();
+	
+	private JLabel instructionsLabel = new JLabel("<html>" + "Welcome to Labyrinth! The objective of the game is to collect all 5 of the treasures on your "
+			+ "treasure cards." + "<br />" + "" + "<br />" + " To reach the treasure, you must first shift the walls of the maze. This is done by pushing the tiles down with the"
+			+ "extra maze tile so you can move as far as you wish along its open passageways. The places that a tile can be added are indicated by "
+			+ "the yellow buttons on the edges of the maze. The maze tile that is pushed out will be the next player's way of shifting the maze. "
+			+ "You must move the maze before each turn, even if you don't need to. This way you can wall in other players! After you place the "
+			+ "maze tile, you can choose where you want to move by left clicking the mouse. If you collect a treasure, that treasure card will "
+			+ "dissapear from your hand and you must collect the following one.");
+
 	
 	private ArrayList<File> savedGameFiles = new ArrayList<File>();
 
@@ -51,6 +67,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 	public LabyrinthTitleScreen(){
 		
 		titleScreenPanelSetup();
+		instructionsScreenPanelSetup();
 		savedGamePanelSetup();
 		buttonSetup();
 		playTheMusic();
@@ -100,6 +117,47 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		titleScreenPanel.repaint();
 
 	}
+	
+	//This method sets up the instructions screen panel
+		private void instructionsScreenPanelSetup(){
+
+			//Setup the panel
+			instructionsScreenPanel.setBounds(0,0,1280,720);
+			instructionsScreenPanel.setLayout(null);
+			instructionsScreenPanel.setBackground(new Color(191,231,247));
+			instructionsScreenPanel.setVisible(false);
+
+			//Setup the label
+			instructionsTitleLabel.setBounds(565, 30, 200, 50);
+			instructionsTitleLabel.setFont(new Font("Ultra", Font.BOLD, 24));
+			instructionsScreenPanel.add(instructionsTitleLabel);
+			
+			//Label that says the instructions
+			instructionsLabel.setBounds(100, 150, 1080, 300);
+			instructionsLabel.setFont(new Font("Ultra", Font.BOLD, 20));
+			instructionsScreenPanel.add(instructionsLabel);
+			
+			treasureCardExLabel.setBounds(250, 475, 130, 150);
+			instructionsScreenPanel.add(treasureCardExLabel);
+			
+			//Label that says Example Card
+			cardLabel.setBounds(250, 425, 200, 50);
+			cardLabel.setFont(new Font("Ultra", Font.BOLD, 20));
+			instructionsScreenPanel.add(cardLabel);
+			
+			mazeTileExLabel.setBounds(500, 475, 150, 150);
+			instructionsScreenPanel.add(mazeTileExLabel);
+			
+			//Label that says the Example Tile
+			tileLabel.setBounds(515, 425, 200, 50);
+			tileLabel.setFont(new Font("Ultra", Font.BOLD, 20));
+			instructionsScreenPanel.add(tileLabel);
+
+			//Revalidate and repaint the panel so the image labels appear
+			titleScreenPanel.revalidate();
+			titleScreenPanel.repaint();
+
+		}
 
 	//This method sets up the saved game panel
 	private void savedGamePanelSetup() {
@@ -167,11 +225,11 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		savedGameButton.addActionListener(this);
 		titleScreenPanel.add(savedGameButton);
 		
-		instructionButton.setBounds(500, 500, 300, 100);
-		instructionButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
-		instructionButton.setBackground(Color.ORANGE);
-		instructionButton.addActionListener(this);
-		titleScreenPanel.add(instructionButton);
+		instructionsButton.setBounds(500, 500, 300, 100);
+		instructionsButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
+		instructionsButton.setBackground(Color.ORANGE);
+		instructionsButton.addActionListener(this);
+		titleScreenPanel.add(instructionsButton);
 		
 		startButton.setBounds(700, 100, 250, 150);
 		startButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
@@ -187,6 +245,11 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		backButton.setFont(new Font("Comic Sans MS", Font.BOLD, 42));
 		backButton.addActionListener(this);
 		savedGamePanel.add(backButton);
+		
+		backButton1.setBounds(1000, 550, 200, 100);
+		backButton1.setFont(new Font("Ultra", Font.BOLD, 36));
+		backButton1.addActionListener(this);
+		instructionsScreenPanel.add(backButton1);
 
 	}
 
@@ -194,6 +257,7 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 	private void frameSetup(){
 		
 		add(titleScreenPanel);
+		add(instructionsScreenPanel);
 		add(savedGamePanel);
 		setLayout(null);
 		setTitle("Labyrinth");
@@ -209,10 +273,17 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 		if(state == 0) {
 			titleScreenPanel.setVisible(true);
+			instructionsScreenPanel.setVisible(false);
 			savedGamePanel.setVisible(false);
 		}else if(state == 1) {
 			titleScreenPanel.setVisible(false);
+			instructionsScreenPanel.setVisible(false);
 			savedGamePanel.setVisible(true);
+		}else if(state == 2) {
+			titleScreenPanel.setVisible(false);
+			instructionsScreenPanel.setVisible(true);
+			savedGamePanel.setVisible(false);
+
 		}
 
 	}
@@ -245,14 +316,18 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 		if(event.getSource() == savedGameButton) {
 			MusicPlayer m2 = new MusicPlayer();
 			m2.playMusic("Audio/sound.wav");
+			
 			setState(1);
 			updateState();
 
 		}
 		
-		if(event.getSource() == instructionButton) {
+		if(event.getSource() == instructionsButton) {
 			MusicPlayer m2 = new MusicPlayer();
 			m2.playMusic("Audio/sound.wav");
+			
+			setState(2);
+			updateState();
 		}
 
 		//Return to the title screen when one of the back buttons is pressed
@@ -261,6 +336,15 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 			m2.playMusic("Audio/sound.wav");
 			selectedGame = null;
 			
+			setState(0);
+			updateState();
+		}
+		
+		if(event.getSource() == backButton1) {
+			MusicPlayer m2 = new MusicPlayer();
+			m2.playMusic("Audio/sound.wav");
+			selectedGame = null;
+
 			setState(0);
 			updateState();
 		}

@@ -23,6 +23,12 @@ public class Assets {
 	public static ImageIcon titleScreen = new ImageIcon(new ImageIcon("Images/labyrinthTitleScreen.jpg").
 			getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH));
 	
+	public static ImageIcon cardExample = new ImageIcon(new ImageIcon("Images/CardBook.png").
+			getImage().getScaledInstance(130, 150, Image.SCALE_SMOOTH)); 
+	
+	public static ImageIcon tileExample = new ImageIcon(new ImageIcon("Images/BookTile.png").
+			getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+	
 	public static ImageIcon tileHighlightYellow = tileImageSetup("Images/YellowHighlight.png");
 	public static ImageIcon tileHighlightBlue = tileImageSetup("Images/BlueHighlight.png");
 	public static ImageIcon tileHighlightRed = tileImageSetup("Images/RedHighlight.png");
