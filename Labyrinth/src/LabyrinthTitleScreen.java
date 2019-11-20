@@ -1,8 +1,13 @@
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 
@@ -22,6 +27,7 @@ import javax.swing.JScrollPane;
 public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	//Frame components
+	private JPanel test = new JPanel();
 	private JPanel titleScreenPanel = new JPanel();
 	private JPanel savedGamePanel = new JPanel();
 	private JLabel titleLabel = new JLabel("LABYRINTH");
@@ -44,16 +50,25 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	//Constructor method
 	public LabyrinthTitleScreen(){
-
+		
 		titleScreenPanelSetup();
 		savedGamePanelSetup();
 		buttonSetup();
 		playTheMusic();
 		frameSetup();
+		cursorSetup();
 		setupFileList();
 
 	}
 	
+	public void cursorSetup() {
+		
+		Toolkit t1 = Toolkit.getDefaultToolkit();
+		Image img = t1.getImage("Images/mycursor.png");
+		Point p = new Point(0,0);
+		Cursor c = t1.createCustomCursor(img, p, "cursor.png");
+		test.setCursor(c);
+	}
 	
 	public void playTheMusic(){
 		
@@ -175,7 +190,8 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 	//This method sets up the frame
 	private void frameSetup(){
-
+		
+		add(test);
 		add(titleScreenPanel);
 		add(savedGamePanel);
 		setLayout(null);
@@ -226,15 +242,22 @@ public class LabyrinthTitleScreen extends JFrame implements ActionListener {
 
 		//Enter the instructions screen if the instructions button is pressed
 		if(event.getSource() == savedGameButton) {
-
+			MusicPlayer m2 = new MusicPlayer();
+			m2.playMusic("Audio/sound.wav");
 			setState(1);
 			updateState();
 
 		}
+		
+		if(event.getSource() == instructionButton) {
+			MusicPlayer m2 = new MusicPlayer();
+			m2.playMusic("Audio/sound.wav");
+		}
 
 		//Return to the title screen when one of the back buttons is pressed
 		if(event.getSource() == backButton) {
-			
+			MusicPlayer m2 = new MusicPlayer();
+			m2.playMusic("Audio/sound.wav");
 			selectedGame = null;
 			
 			setState(0);
