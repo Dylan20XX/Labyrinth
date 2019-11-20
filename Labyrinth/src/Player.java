@@ -12,6 +12,7 @@ public class Player extends JLabel {
 	
 	private int row;
 	private int col;
+	private boolean inGame = true;
 	
 	//Constructor Method
 	public Player(ImageIcon image, int row, int col) {
@@ -44,6 +45,14 @@ public class Player extends JLabel {
 
 	public void setCol(int col) {
 		this.col = col;
+	}
+
+	public boolean isInGame() {
+		return inGame;
+	}
+
+	public void setInGame(boolean inGame) {
+		this.inGame = inGame;
 	}
 
 	//This method places 5 cards in the player's hand

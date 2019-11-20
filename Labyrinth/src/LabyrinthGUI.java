@@ -76,6 +76,8 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 
 	private int selectedRow = 0;
 	private int selectedCol = 0;
+	
+	private int winner = 5;
 
 	//Constructor for loading a new game
 	public LabyrinthGUI() {
@@ -182,6 +184,17 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 			//Highlight the appropriate last push button
 			if(lastPush != -1 && phase == 0)
 				pushButton[lastPush].setIcon(Assets.tileHighlightRed);
+			
+			//Read which players have collected all of their treasures
+			for(int i = 0; i < players.length; i++) {
+				players[i].setInGame(input.nextBoolean());
+				
+				if(!players[i].isInGame())
+					boardPanel.remove(players[i]);
+			}
+			
+			//Read if a winner has been decided
+			winner = input.nextInt();
 
 			input.close();//Close the scanner
 
@@ -445,9 +458,14 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 			board.pathfind(players[turn].getRow(), players[turn].getCol());
 		} else if(phase == 1) {
 			phase = 0;
-			turn++;
-			if(turn == 4)
-				turn = 0;
+			
+			//Skip a player's turn if they are out of the game
+			do {
+				turn++;
+				if(turn == 4)
+					turn = 0;
+			} while(!players[turn].isInGame());
+
 			phaseLabel.setText("Place the tile");
 			board.removeHighlight();
 			turnLabel.setText(String.format("P%d's Turn", turn + 1));
@@ -554,10 +572,34 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 							validate();
 
 							displayCards();
-
-							if(players[turn].getHand().isEmpty())
-								playerVictory(turn + 1);
-
+							
+							//Check if all cards in hand have been collected
+							if(players[turn].getHand().isEmpty()) {
+								
+								//If no one has won yet, set the winner
+								if(winner == 5)
+									winner = turn + 1;
+								
+								//Remove the player from the game
+								players[turn].setInGame(false);
+								boardPanel.remove(players[turn]);
+								
+								//Check how many players are still in the game
+								int numPlayers = 0;
+								
+								for(int j = 0; j < players.length; j++) {
+									
+									if(players[j].isInGame())
+										numPlayers++;
+									
+								}
+								
+								//If there is one player remaining, end the game
+								if(numPlayers <= 1)
+									playerVictory(winner);
+								
+							}
+								
 							break;
 
 						}
@@ -867,7 +909,15 @@ public class LabyrinthGUI extends JFrame implements ActionListener{
 
 				//Print the last push
 				pr.println(lastPush);
-
+				
+				//Print the game status of each player
+				for(Player currentPlayer: players) {
+					pr.println(currentPlayer.isInGame());
+				}
+				
+				//Print the winner
+				pr.println(winner);
+				
 				pr.close();
 
 			} catch (FileNotFoundException e) {
