@@ -16,10 +16,12 @@ public class Player extends JLabel {
 	
 	//Constructor Method
 	public Player(ImageIcon image, int row, int col) {
+		
 		this.row = row;
 		this.col = col;
 		setIcon(image);
 		drawHand();
+		
 	}
 	
 	//Getters and Setters

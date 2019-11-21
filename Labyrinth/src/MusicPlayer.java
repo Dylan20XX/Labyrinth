@@ -3,6 +3,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+// Plays the music sent to this class
 public class MusicPlayer { // from YouTube by Max O'Didly
 
 	// Variables for the music
@@ -50,9 +51,7 @@ public class MusicPlayer { // from YouTube by Max O'Didly
 
 	// Method to stop the music
 	public void StopMusic() {
-		// Stop the music
 		clip.stop();
-
 	}
 
 }

@@ -13,9 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /*
- * This class displays the title screen for the game.
- * It allows the player to select to start a new game or load a game,
- * and start playing the game.
+ * This class displays the victory screen for the game and gives an option to restart.
+ * 
  */
 
 public class LabyrinthVictoryScreen extends JFrame implements ActionListener {
