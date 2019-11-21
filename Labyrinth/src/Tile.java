@@ -262,11 +262,7 @@ public class Tile extends JButton implements Cloneable{
 
 			Tile tile = new Tile();
 
-			tile.setType(tiles[id].getType());
-			tile.setTreasure(tiles[id].getTreasure());
-			tile.setImages(tiles[id].getImages());
-			tile.setRotation(tiles[id].getRotation());
-			tile.setId(tiles[id].getId());
+			tile.copy(tiles[id]);
 
 			tileDeck.add(tile);
 
@@ -277,11 +273,7 @@ public class Tile extends JButton implements Cloneable{
 
 			Tile tile = new Tile();
 
-			tile.setType(tiles[28].getType());
-			tile.setTreasure(tiles[28].getTreasure());
-			tile.setImages(tiles[28].getImages());
-			tile.setRotation(r.nextInt(4));
-			tile.setId(tiles[28].getId());
+			tile.copy(tiles[28]);
 
 			tileDeck.add(tile);
 
@@ -292,11 +284,7 @@ public class Tile extends JButton implements Cloneable{
 
 			Tile tile = new Tile();
 
-			tile.setType(tiles[29].getType());
-			tile.setTreasure(tiles[29].getTreasure());
-			tile.setImages(tiles[29].getImages());
-			tile.setRotation(r.nextInt(4));
-			tile.setId(tiles[29].getId());
+			tile.copy(tiles[29]);
 
 			tileDeck.add(tile);
 
